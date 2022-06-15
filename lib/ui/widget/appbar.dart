@@ -6,12 +6,11 @@ Widget appBarCustom(BuildContext context) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
-    // leading: SvgPicture.asset(
-    //   'assets/img/logo.svg',
-    //   height: 40,
-    //   width: 185.8,
-    //   fit: BoxFit.fitWidth,
-    // ),
+    leading: Image.asset(
+      'assets/img/logo.png',
+      height: 40,
+      fit: BoxFit.fitHeight,
+    ),
     automaticallyImplyLeading: false,
     actions: [
       Padding(

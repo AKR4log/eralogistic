@@ -72,22 +72,22 @@ class _HomePageState extends State<HomePage> {
                     ]),
               ),
               infoBlockCustom(
-                  icon: 'assets/img/icon_svg/choose_direction.png',
+                  icon: 'assets/img/icon/choose_direction.png',
                   title: 'Выберите направление',
                   description:
                       'Выберите откуда и куда вы хотите достаить груз в форме справа и предпочитаемый вид транспорта'),
               infoBlockCustom(
-                  icon: 'assets/img/icon_svg/select_transport.png',
+                  icon: 'assets/img/icon/select_transport.png',
                   title: 'Мы подберем транспорт',
                   description:
                       'Выберите откуда и куда вы хотите достаить груз в форме справа и предпочитаемый вид транспорта'),
               infoBlockCustom(
-                  icon: 'assets/img/icon_svg/contact_us.png',
+                  icon: 'assets/img/icon/contact_us.png',
                   title: 'Свяжитесь с нами',
                   description:
                       'Выберите откуда и куда вы хотите достаить груз в форме справа и предпочитаемый вид транспорта'),
               infoBlockCustom(
-                  icon: 'assets/img/icon_svg/track.png',
+                  icon: 'assets/img/icon/track.png',
                   title: 'Отследите ваш груз',
                   description:
                       'Выберите откуда и куда вы хотите достаить груз в форме справа и предпочитаемый вид транспорта'),
@@ -592,13 +592,13 @@ class _HomePageState extends State<HomePage> {
                   )
                 ])),
         container_form_info(
-            icon: 'assets/img/icon_svg/truck.png',
+            icon: 'assets/img/icon/truck.png',
             percent: '45',
             percentD: 0.45,
             weight: '4 500',
             volume: '25'),
         container_form_info(
-            icon: 'assets/img/icon_svg/railway_carriage.png',
+            icon: 'assets/img/icon/railway_carriage.png',
             percent: '55',
             percentD: 0.55,
             weight: '4 500',

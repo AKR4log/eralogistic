@@ -37,6 +37,45 @@ Widget inputTextCustom(
   );
 }
 
+Widget inputMaxLinesTextCustom(
+    {String titleInput,
+    int maxLines,
+    TextEditingController controller,
+    String titleHint,
+    IconData icon}) {
+  return Container(
+    margin: const EdgeInsets.symmetric(vertical: 8),
+    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Container(
+        margin: const EdgeInsets.only(bottom: 8),
+        child: Text(titleInput),
+      ),
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+                width: 1, color: const Color.fromRGBO(156, 163, 175, 1))),
+        child: TextField(
+          controller: controller,
+          keyboardType: TextInputType.text,
+          maxLines: maxLines,
+          minLines: maxLines,
+          decoration: InputDecoration(
+              prefixIcon: Icon(icon,
+                  color: const Color.fromRGBO(57, 94, 149, 1), size: 18),
+              hintText: titleHint,
+              // errorText: controller.text.isEmpty ? 'Error message' : null,
+              border: InputBorder.none,
+              hintStyle: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: Color.fromRGBO(45, 67, 80, 1))),
+        ),
+      )
+    ]),
+  );
+}
+
 Widget inputPhoneCustom(
     {String titleInput,
     TextEditingController controller,

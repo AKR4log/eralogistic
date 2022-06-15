@@ -1,7 +1,6 @@
 // ignore_for_file: missing_return
 
 import 'package:eralogistic/app/routes/anim_routes.dart';
-import 'package:eralogistic/ui/home/connect/connect.dart';
 import 'package:eralogistic/ui/home/home_page.dart';
 import 'package:eralogistic/ui/splash.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +22,10 @@ class Routes {
         return SlideLeftRoute<bool>(
             builder: (BuildContext context) => const HomePage());
         break;
-      case "ConnectPage":
-        return SlideLeftRoute<bool>(
-            builder: (BuildContext context) => const ConnectPage());
-        break;
+      // case "ConnectPage":
+      //   return SlideLeftRoute<bool>(
+      //       builder: (BuildContext context) => const ConnectPage());
+      //   break;
     }
   }
 }

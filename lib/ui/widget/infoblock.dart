@@ -1,22 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-Widget infoBlockCustom({IconData icon, String title, String description}) {
+Widget infoBlockCustom({String icon, String title, String description}) {
   return Container(
     height: 99,
+    margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
     padding: const EdgeInsets.all(8),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8), color: Colors.white),
     child: Flex(
       direction: Axis.horizontal,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Flexible(
+        //     child: SvgPicture.asset(
+        //   icon,
+        //   height: 40,
+        //   width: 185.8,
+        //   color: const Color.fromRGBO(57, 94, 149, 1),
+        //   fit: BoxFit.fitWidth,
+        // )),
         Flexible(
-          child:
-              Icon(icon, color: const Color.fromRGBO(57, 94, 149, 1), size: 40),
-        ),
+            child: Container(
+          height: 40,
+          width: 40,
+          child: Image.asset(
+            icon,
+            width: 40,
+            height: 40,
+            color: const Color.fromRGBO(57, 94, 149, 1),
+          ),
+          margin: const EdgeInsets.only(right: 8),
+        )),
         Flexible(
             flex: 4,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(

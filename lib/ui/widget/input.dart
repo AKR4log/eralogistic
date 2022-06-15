@@ -7,24 +7,31 @@ Widget inputTextCustom(
     String titleHint,
     IconData icon}) {
   return Container(
-    margin: const EdgeInsets.symmetric(),
-    child: Column(children: [
+    margin: const EdgeInsets.symmetric(vertical: 8),
+    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
         margin: const EdgeInsets.only(bottom: 8),
         child: Text(titleInput),
       ),
-      TextField(
-        controller: controller,
-        keyboardType: TextInputType.text,
-        decoration: InputDecoration(
-            prefixIcon: Icon(icon,
-                color: const Color.fromRGBO(57, 94, 149, 1), size: 18),
-            hintText: titleHint,
-            errorText: controller.text.isEmpty ? 'Error message' : null,
-            hintStyle: const TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: Color.fromRGBO(45, 67, 80, 1))),
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+                width: 1, color: const Color.fromRGBO(156, 163, 175, 1))),
+        child: TextField(
+          controller: controller,
+          keyboardType: TextInputType.text,
+          decoration: InputDecoration(
+              prefixIcon: Icon(icon,
+                  color: const Color.fromRGBO(57, 94, 149, 1), size: 18),
+              hintText: titleHint,
+              // errorText: controller.text.isEmpty ? 'Error message' : null,
+              border: InputBorder.none,
+              hintStyle: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: Color.fromRGBO(45, 67, 80, 1))),
+        ),
       )
     ]),
   );
@@ -36,44 +43,47 @@ Widget inputPhoneCustom(
     String titleHint,
     IconData icon}) {
   return Container(
-    margin: const EdgeInsets.symmetric(),
-    child: Column(children: [
+    margin: const EdgeInsets.symmetric(vertical: 8),
+    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Container(
         margin: const EdgeInsets.only(bottom: 8),
         child: Text(titleInput),
       ),
-      TextField(
-        controller: controller,
-        keyboardType: TextInputType.phone,
-        inputFormatters: [
-          PhoneInputFormatter(
-            onCountrySelected: (PhoneCountryData countryData) {},
-            allowEndlessPhone: false,
-          )
-        ],
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-            prefixIcon: Icon(icon,
-                color: const Color.fromRGBO(57, 94, 149, 1), size: 18),
-            isCollapsed: true,
-            // contentPadding: const EdgeInsets.symmetric(
-            //   horizontal: 25,
-            //   vertical: 22,
-            // ),
-            hintText: titleHint,
-            errorText: controller.text.isEmpty ? 'Error message' : null,
-            hintStyle: const TextStyle(
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                color: Color.fromRGBO(45, 67, 80, 1))),
+      Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+                width: 1, color: const Color.fromRGBO(156, 163, 175, 1))),
+        child: TextField(
+          controller: controller,
+          keyboardType: TextInputType.phone,
+          inputFormatters: [
+            PhoneInputFormatter(
+              onCountrySelected: (PhoneCountryData countryData) {},
+              allowEndlessPhone: false,
+            )
+          ],
+          textInputAction: TextInputAction.next,
+          decoration: InputDecoration(
+              prefixIcon: Icon(icon,
+                  color: const Color.fromRGBO(57, 94, 149, 1), size: 18),
+              border: InputBorder.none,
+              hintText: titleHint,
+              // errorText: controller.text.isEmpty ? 'Error message' : null,
+              hintStyle: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  color: Color.fromRGBO(45, 67, 80, 1))),
+        ),
       )
     ]),
   );
 }
 
 Widget inputDropdownCustom(
-    {String titleInput, dynamic val, String titleHint, IconData icon}) {
+    {String titleInput, String titleHint, IconData icon}) {
   return StatefulBuilder(builder: (context, setState) {
+    var val = 1;
     return Container(
       margin: const EdgeInsets.symmetric(),
       child: Column(children: [

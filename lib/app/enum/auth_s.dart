@@ -1,0 +1,6 @@
+enum AuthStatus {
+  NOT_DETERMINED,
+  REGISTER_NOW_USER,
+  NOT_LOGGED_IN,
+  LOGGED_IN,
+}

@@ -1,9 +1,8 @@
 import 'package:eralogistic/app/enum/auth_s.dart';
 import 'package:eralogistic/app/state/feed_state.dart';
-import 'package:eralogistic/ui/connect/login.dart';
 import 'package:eralogistic/ui/home/home_page.dart';
+import 'package:eralogistic/ui/start_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
@@ -30,19 +29,14 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Widget _body() {
-    return SizedBox(
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: const Center(
-        // child: SvgPicture.asset(
-        //   'assets/img/logo.svg',
-        //   height: 75,
-        //   width: 159,
-        //   fit: BoxFit.fitHeight,
-        // ),
-        child: Text(
-          'ЭПОХА\nЛОГИСТИК',
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 42),
+      child: Center(
+        child: Image.asset(
+          'assets/img/big-logo.png',
+          fit: BoxFit.fitHeight,
         ),
       ),
     );
@@ -56,7 +50,7 @@ class _SplashPageState extends State<SplashPage> {
         body: state.authStatus == AuthStatus.NOT_DETERMINED
             ? _body()
             : state.authStatus == AuthStatus.NOT_LOGGED_IN
-                ? const LoginPage()
+                ? const StartPage()
                 : const HomePage());
   }
 }

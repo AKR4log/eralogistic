@@ -6,10 +6,9 @@ Widget appBarCustom(BuildContext context) {
   return AppBar(
     backgroundColor: Colors.transparent,
     elevation: 0,
-    leading: Image.asset(
+    title: Image.asset(
       'assets/img/logo.png',
-      height: 40,
-      fit: BoxFit.fitHeight,
+      fit: BoxFit.cover,
     ),
     automaticallyImplyLeading: false,
     actions: [

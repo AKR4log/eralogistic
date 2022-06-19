@@ -14,6 +14,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AppState>(create: (_) => AppState()),
+        ChangeNotifierProvider<FeedServiceState>(
+            create: (_) => FeedServiceState()),
+      ],
       child: MaterialApp(
         theme: ThemeData(
           fontFamily: 'Inter',
@@ -23,11 +28,6 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (settings) => Routes.onGenerateRoute(settings),
         initialRoute: "SplashPage",
       ),
-      providers: [
-        ChangeNotifierProvider<AppState>(create: (_) => AppState()),
-        ChangeNotifierProvider<FeedServiceState>(
-            create: (_) => FeedServiceState()),
-      ],
     );
   }
 }

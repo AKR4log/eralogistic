@@ -1,9 +1,11 @@
 // ignore_for_file: missing_return
 
 import 'package:eralogistic/app/routes/anim_routes.dart';
+import 'package:eralogistic/ui/connect/comfirm_code.dart';
 import 'package:eralogistic/ui/connect/login.dart';
 import 'package:eralogistic/ui/connect/register.dart';
 import 'package:eralogistic/ui/home/home_page.dart';
+import 'package:eralogistic/ui/home/profile.dart';
 import 'package:eralogistic/ui/splash.dart';
 import 'package:eralogistic/ui/start_page.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +38,16 @@ class Routes {
       case "RegisterPage":
         return SlideLeftRoute<bool>(
             builder: (BuildContext context) => const RegisterPage());
+        break;
+      case "Profile":
+        return SlideLeftRoute<bool>(
+            builder: (BuildContext context) => const Profile());
+        break;
+      case "ComfirmCode":
+        String verificationID = pathElements[2];
+        return SlideLeftRoute<bool>(
+            builder: (BuildContext context) =>
+                ComfirmCode(verificationID: verificationID));
         break;
     }
   }

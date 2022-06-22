@@ -63,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                                 color: const Color.fromRGBO(234, 234, 234, 1)),
                             child: TextField(
                                 controller: controllerPhone,
-                                keyboardType: TextInputType.text,
+                                keyboardType: TextInputType.phone,
                                 inputFormatters: [
                                   PhoneInputFormatter(
                                     onCountrySelected:

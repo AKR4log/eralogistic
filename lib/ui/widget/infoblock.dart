@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 Widget infoBlockCustom({String icon, String title, String description}) {
   return Container(
-    height: 99,
     margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
     padding: const EdgeInsets.all(8),
     decoration: BoxDecoration(

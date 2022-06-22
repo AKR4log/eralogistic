@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "603474671034",
+    "project_id": "logistic-56f5f",
+    "storage_bucket": "logistic-56f5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:603474671034:android:f939d3a179307247a6d983",
+        "android_client_info": {
+          "package_name": "com.akr4log.eralogistic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "603474671034-2o5a61ttc97dv9koc26pq6prlgvbtul7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.akr4log.eralogistic",
+            "certificate_hash": "40a03bbeaaf99a5c0a04dcef328abbf01fd213d8"
+          }
+        },
+        {
+          "client_id": "603474671034-t8qb0ibnii6pqo49rluad46p6fhmklov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPaDs5yTphpafPCvj022gSBPtthwoAaes"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "603474671034-t8qb0ibnii6pqo49rluad46p6fhmklov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

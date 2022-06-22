@@ -33,10 +33,13 @@ class _SplashPageState extends State<SplashPage> {
       padding: const EdgeInsets.symmetric(horizontal: 32),
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: Image.asset(
-          'assets/img/big-logo.png',
-          fit: BoxFit.fitHeight,
+      child: Container(
+        margin: const EdgeInsets.only(left: 40),
+        child: Center(
+          child: Image.asset(
+            'assets/img/logo.png',
+            fit: BoxFit.fitHeight,
+          ),
         ),
       ),
     );

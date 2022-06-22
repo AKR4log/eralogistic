@@ -11,7 +11,7 @@ searchAuto(String type_id, String from_id, String to_id) async {
   var token = await getToken();
   final res = await http.post(
       Uri.parse(
-          'http://logistic.q133ss.beget.tech/api/find-transport/$type_id/$from_id/$to_id'),
+          'https://epohalogistic.kz/api/find-transport/$type_id/$from_id/$to_id'),
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ${token['token']}'

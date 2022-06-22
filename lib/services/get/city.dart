@@ -8,13 +8,11 @@ import 'package:http/http.dart' as http;
 
 getCity() async {
   var token = await getToken();
-  final res = await http.get(
-      Uri.parse('http://logistic.q133ss.beget.tech/api/get-cities'),
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ${token['token']}'
-      });
-  print(res.statusCode);
+  final res = await http
+      .get(Uri.parse('https://epohalogistic.kz/api/get-cities'), headers: {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer ${token['token']}'
+  });
   if (res.statusCode == 200) {
     var data = json.decode(res.body);
     var rest = data["data"] as List;
@@ -25,12 +23,11 @@ getCity() async {
 
 getOneCity(int id) async {
   var token = await getToken();
-  final res = await http.get(
-      Uri.parse('http://logistic.q133ss.beget.tech/api/get-cities/$id'),
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ${token['token']}'
-      });
+  final res = await http
+      .get(Uri.parse('https://epohalogistic.kz/api/get-cities/$id'), headers: {
+    'Accept': 'application/json',
+    'Authorization': 'Bearer ${token['token']}'
+  });
   if (res.statusCode == 200) {
     var data = json.decode(res.body);
     var rest = data["data"] as List;

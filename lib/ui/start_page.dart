@@ -19,15 +19,20 @@ class _StartPageState extends State<StartPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(
-              'assets/img/big-logo.png',
-              height: 102,
-              fit: BoxFit.fitHeight,
+            Container(
+              margin: const EdgeInsets.only(left: 40),
+              child: Center(
+                child: Image.asset(
+                  'assets/img/logo.png',
+                  width: 300,
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
             ),
             Container(
                 width: 232,
                 height: 40,
-                margin: const EdgeInsets.only(bottom: 12, top: 50),
+                margin: const EdgeInsets.only(bottom: 12, top: 30),
                 child: TextButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(

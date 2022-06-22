@@ -24,24 +24,9 @@ Widget appBarCustom(BuildContext context) {
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
             padding: MaterialStateProperty.all(
-                const EdgeInsets.symmetric(vertical: 12, horizontal: 10)),
+                const EdgeInsets.symmetric(vertical: 8, horizontal: 8)),
           ),
-          onPressed: () => Navigator.pushNamed(context, "/Profile"),
-          child: const Icon(Icons.location_on, size: 14, color: Colors.white),
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: TextButton(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all(const Color.fromRGBO(57, 94, 149, 1)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-            padding: MaterialStateProperty.all(
-                const EdgeInsets.symmetric(vertical: 12, horizontal: 10)),
-          ),
-          onPressed: () => Navigator.pushNamed(context, "/Profile"),
+          onPressed: () => Navigator.pushNamed(context, "/Notifications"),
           child: const Icon(Icons.notifications, size: 14, color: Colors.white),
         ),
       ),
@@ -54,10 +39,10 @@ Widget appBarCustom(BuildContext context) {
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
             padding: MaterialStateProperty.all(
-                const EdgeInsets.symmetric(vertical: 12, horizontal: 10)),
+                const EdgeInsets.symmetric(vertical: 8, horizontal: 8)),
           ),
           onPressed: () => Navigator.pushNamed(context, "/Profile"),
-          child: const Icon(Icomoon.user, size: 14, color: Colors.white),
+          child: const Icon(Icons.location_on, size: 14, color: Colors.white),
         ),
       )
     ],

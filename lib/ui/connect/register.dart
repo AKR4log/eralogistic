@@ -210,6 +210,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                     },
                                   ),
                                 ),
+                                SizedBox(
+                                    height: 40,
+                                    child: TextButton(
+                                        child: const Text(
+                                          'Зарегистрироваться как компания',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15,
+                                              color: Colors.black),
+                                        ),
+                                        onPressed: () => Navigator.pushNamed(
+                                            context, "/RegisterTransport"))),
                               ],
                             ),
                           ),

@@ -5,7 +5,9 @@ import 'package:eralogistic/ui/connect/comfirm_code.dart';
 import 'package:eralogistic/ui/connect/login.dart';
 import 'package:eralogistic/ui/connect/register.dart';
 import 'package:eralogistic/ui/home/home_page.dart';
+import 'package:eralogistic/ui/home/notifications.dart';
 import 'package:eralogistic/ui/home/profile.dart';
+import 'package:eralogistic/ui/home/workshop/register_transport.dart';
 import 'package:eralogistic/ui/splash.dart';
 import 'package:eralogistic/ui/start_page.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +45,15 @@ class Routes {
         return SlideLeftRoute<bool>(
             builder: (BuildContext context) => const Profile());
         break;
+      case "Notifications":
+        return SlideLeftRoute<bool>(
+            builder: (BuildContext context) => const Notifications());
+        break;
+      case "RegisterTransport":
+        return SlideLeftRoute<bool>(
+            builder: (BuildContext context) => const RegisterTransport());
+        break;
+
       case "ComfirmCode":
         String verificationID = pathElements[2];
         return SlideLeftRoute<bool>(

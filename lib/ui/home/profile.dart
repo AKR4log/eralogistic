@@ -37,21 +37,31 @@ class _ProfileState extends State<Profile> {
                       if (snapshot.data == null) {
                         return const Text("Загрузка ваших заявок");
                       }
-                      return ListView(
-                          children: snapshot.data.map<Widget>((map) {
-                        return container(
-                          icon: map['get_waypoint']['type_id'] != 1
-                              ? 'assets/img/icon/railway_carriage.png'
-                              : 'assets/img/icon/truck.png',
-                          number: map['get_waypoint']['car_number'],
-                          departure_date: map['get_waypoint']['departure_date'],
-                          travel_time: map['get_waypoint']['travel_time'],
-                          arrival_date: map['get_waypoint']['arrival_date'],
-                          weight: map['get_waypoint']['weight'],
-                          volume: map['get_waypoint']['size'],
-                          packages: map['get_waypoint']['packages_qty'],
-                        );
-                      }).toList());
+                      if (snapshot.data.length != 0) {
+                        return ListView(
+                            children: snapshot.data.map<Widget>((map) {
+                          return container(
+                            icon: map['get_waypoint']['type_id'] != 1
+                                ? 'assets/img/icon/railway_carriage.png'
+                                : 'assets/img/icon/truck.png',
+                            number: map['get_waypoint']['car_number'],
+                            departure_date: map['get_waypoint']
+                                ['departure_date'],
+                            travel_time: map['get_waypoint']['travel_time'],
+                            arrival_date: map['get_waypoint']['arrival_date'],
+                            weight: map['get_waypoint']['weight'],
+                            volume: map['get_waypoint']['size'],
+                            packages: map['get_waypoint']['packages_qty'],
+                          );
+                        }).toList());
+                      }
+                      return const SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          'Упс, у вас нет активных заявок',
+                          textAlign: TextAlign.center,
+                        ),
+                      );
                     }),
               ),
             ),

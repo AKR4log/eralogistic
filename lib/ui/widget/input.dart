@@ -60,16 +60,31 @@ Widget inputMaxLinesTextCustom(
           keyboardType: TextInputType.text,
           maxLines: maxLines,
           minLines: maxLines,
-          decoration: InputDecoration(
-              prefixIcon: Icon(icon,
-                  color: const Color.fromRGBO(57, 94, 149, 1), size: 18),
-              hintText: titleHint,
-              // errorText: controller.text.isEmpty ? 'Error message' : null,
-              border: InputBorder.none,
-              hintStyle: const TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 14,
-                  color: Color.fromRGBO(45, 67, 80, 1))),
+          decoration: icon != null
+              ? InputDecoration(
+                  prefixIcon: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Icon(icon,
+                          color: const Color.fromRGBO(57, 94, 149, 1),
+                          size: 18),
+                    ],
+                  ),
+                  hintText: titleHint,
+                  border: InputBorder.none,
+                  hintStyle: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: Color.fromRGBO(45, 67, 80, 1)))
+              : InputDecoration(
+                  hintText: titleHint,
+                  border: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  hintStyle: const TextStyle(
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14,
+                      color: Color.fromRGBO(45, 67, 80, 1))),
         ),
       )
     ]),

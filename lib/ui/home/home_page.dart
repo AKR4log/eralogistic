@@ -29,11 +29,15 @@ class _HomePageState extends State<HomePage> {
       errValPhone = false,
       twoStepActivate = false;
 
-  @override
-  Future<void> initState() async {
-    controllerName.text = await getName();
+  init() async {
     controllerPhone.text = await getPhone();
+    controllerName.text = await getName();
+  }
+
+  @override
+  void initState() {
     super.initState();
+    init();
   }
 
   @override
@@ -106,6 +110,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget oneStep() {
+    // controllerName.text = getName() as String;
+    // controllerPhone.text = getPhone() as String;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -534,9 +540,16 @@ class _HomePageState extends State<HomePage> {
         future: searchAuto(valTrack, valFrom, valFor),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
-            return const Text("Loading");
+            return const SizedBox(
+              width: double.infinity,
+              child: Text(
+                'Поиск подходящих машин',
+                textAlign: TextAlign.center,
+              ),
+            );
           }
-          if (snapshot.data != null && snapshot.data != null) {
+
+          if (snapshot.data.length != 0) {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -569,7 +582,7 @@ class _HomePageState extends State<HomePage> {
                                     color: Color.fromRGBO(57, 94, 149, 1)),
                               ),
                               Text(
-                                'Мы нашли для вас\nтранспорт: ${valTrack == "1" ? "фуры" : "вогоны"}}',
+                                'Мы нашли для вас\nтранспорт: ${valTrack == "1" ? "фуры" : "вогоны"}',
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 20,

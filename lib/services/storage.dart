@@ -44,6 +44,106 @@ Future<String> getName() async {
   return prefs.getString('name');
 }
 
+Future<bool> setCompanyName(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('CompanyName', value);
+}
+
+Future<String> getCompanyName() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('CompanyName');
+}
+
+Future<bool> setYears(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('Years', value);
+}
+
+Future<String> getYears() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('Years');
+}
+
+Future<bool> setContactPerson(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('ContactPerson', value);
+}
+
+Future<String> getContactPerson() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('ContactPerson');
+}
+
+Future<bool> setMail(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('Mail', value);
+}
+
+Future<String> getMail() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('Mail');
+}
+
+Future<bool> setWorking(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('Working', value);
+}
+
+Future<String> getWorking() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('Working');
+}
+
+Future<bool> setAddress(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('Address', value);
+}
+
+Future<String> getAddress() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('Address');
+}
+
+Future<bool> setDetails(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('Details', value);
+}
+
+Future<String> getDetails() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('Details');
+}
+
+Future<bool> setTengeAccount(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('TengeAccount', value);
+}
+
+Future<String> getTengeAccount() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('TengeAccount');
+}
+
+Future<bool> setUSDAccount(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('USDAccount', value);
+}
+
+Future<String> getUSDAccount() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('USDAccount');
+}
+
+Future<bool> setBIN(String value) async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.setString('BIN', value);
+}
+
+Future<String> getBIN() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  return prefs.getString('BIN');
+}
+
 getToken() async {
   final res = await http
       .post(Uri.parse('https://epohalogistic.kz/api/sanctum/register'), body: {

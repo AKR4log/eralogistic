@@ -65,11 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                                 controller: controllerPhone,
                                 keyboardType: TextInputType.phone,
                                 inputFormatters: [
-                                  PhoneInputFormatter(
-                                    onCountrySelected:
-                                        (PhoneCountryData countryData) {},
-                                    allowEndlessPhone: false,
-                                  )
+                                  MaskedInputFormatter('(###)###-##-##')
                                 ],
                                 decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.zero,
@@ -107,6 +103,8 @@ class _LoginPageState extends State<LoginPage> {
                             child: TextField(
                                 controller: controllerPassword,
                                 keyboardType: TextInputType.text,
+                                obscureText: true,
+                                obscuringCharacter: "*",
                                 decoration: const InputDecoration(
                                     hintText: 'Введите свой пароль',
                                     border: InputBorder.none,

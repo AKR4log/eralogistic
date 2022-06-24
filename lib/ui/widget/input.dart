@@ -111,12 +111,7 @@ Widget inputPhoneCustom(
         child: TextField(
           controller: controller,
           keyboardType: TextInputType.phone,
-          inputFormatters: [
-            PhoneInputFormatter(
-              onCountrySelected: (PhoneCountryData countryData) {},
-              allowEndlessPhone: false,
-            )
-          ],
+          inputFormatters: [MaskedInputFormatter('(###)###-##-##')],
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
               prefixIcon: Icon(icon,

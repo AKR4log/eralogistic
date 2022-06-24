@@ -36,7 +36,20 @@ class FeedServiceState extends AppState {
     UserCredential firebaseResult =
         await FirebaseAuth.instance.signInWithCredential(authResult);
     authStatus = AuthStatus.LOGGED_IN;
-    print(authStatus);
     register(context);
+  }
+
+  signInWithCredentialCompany(authResult, context) async {
+    UserCredential firebaseResult =
+        await FirebaseAuth.instance.signInWithCredential(authResult);
+    authStatus = AuthStatus.LOGGED_IN;
+    registerCompany(context);
+  }
+
+  signInWithCredentialPrivate(authResult, context) async {
+    UserCredential firebaseResult =
+        await FirebaseAuth.instance.signInWithCredential(authResult);
+    authStatus = AuthStatus.LOGGED_IN;
+    registerPrivate(context);
   }
 }

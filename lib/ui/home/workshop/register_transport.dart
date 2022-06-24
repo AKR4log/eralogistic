@@ -1,3 +1,4 @@
+import 'package:eralogistic/services/post/register_user.dart';
 import 'package:eralogistic/ui/icons.dart';
 import 'package:eralogistic/ui/widget/input.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,9 @@ class _RegisterTransportState extends State<RegisterTransport> {
   TextEditingController controllerTengeAccount = TextEditingController();
   TextEditingController controllerUSDAccount = TextEditingController();
   TextEditingController controllerBIN = TextEditingController();
+  TextEditingController controllerPassword = TextEditingController();
+  TextEditingController controllerPasswordConfirm = TextEditingController();
+  bool isLoad = false;
 
   @override
   void initState() {
@@ -33,6 +37,8 @@ class _RegisterTransportState extends State<RegisterTransport> {
     controllerTengeAccount = TextEditingController();
     controllerUSDAccount = TextEditingController();
     controllerWorking = TextEditingController();
+    controllerPassword = TextEditingController();
+    controllerPasswordConfirm = TextEditingController();
     super.initState();
   }
 
@@ -87,7 +93,7 @@ class _RegisterTransportState extends State<RegisterTransport> {
                   flex: 2,
                   child: inputTextCustom(
                       titleInput: 'БИН',
-                      controller: controllerMail,
+                      controller: controllerBIN,
                       titleHint: '12345678901112',
                       icon: Icomoon.credit_card),
                 ),
@@ -96,7 +102,7 @@ class _RegisterTransportState extends State<RegisterTransport> {
                   flex: 3,
                   child: inputTextCustom(
                       titleInput: 'С какого года работаете?',
-                      controller: controllerMail,
+                      controller: controllerWorking,
                       titleHint: '1995',
                       icon: Icomoon.calendar),
                 )
@@ -139,6 +145,74 @@ class _RegisterTransportState extends State<RegisterTransport> {
               ],
             ),
             Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(bottom: 26),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 14),
+                      child: const Text(
+                        'Пароль',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            color: Colors.black),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 13),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              width: 1,
+                              color: const Color.fromRGBO(156, 163, 175, 1))),
+                      child: TextField(
+                          controller: controllerPassword,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          obscuringCharacter: "*",
+                          decoration: const InputDecoration(
+                              hintText: 'Придумайте пароль',
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  color: Color.fromRGBO(171, 171, 171, 1)))),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 14, top: 18),
+                      child: const Text(
+                        'Подтвердите пароль',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 18,
+                            color: Colors.black),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 13),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              width: 1,
+                              color: const Color.fromRGBO(156, 163, 175, 1))),
+                      child: TextField(
+                          controller: controllerPasswordConfirm,
+                          keyboardType: TextInputType.text,
+                          obscureText: true,
+                          obscuringCharacter: "*",
+                          decoration: const InputDecoration(
+                              hintText: 'Подтвердите пароль',
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14,
+                                  color: Color.fromRGBO(171, 171, 171, 1)))),
+                    ),
+                  ]),
+            ),
+            Container(
                 width: 232,
                 height: 40,
                 margin: const EdgeInsets.only(bottom: 32, top: 24),
@@ -152,14 +226,37 @@ class _RegisterTransportState extends State<RegisterTransport> {
                           const Color.fromRGBO(57, 94, 149, 1)),
                       padding: MaterialStateProperty.all(EdgeInsets.zero),
                     ),
-                    child: const Text(
-                      'Зарегистрироваться',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14,
-                          color: Colors.white),
-                    ),
-                    onPressed: () {})),
+                    child: isLoad
+                        ? const SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: CircularProgressIndicator(),
+                          )
+                        : const Text(
+                            'Зарегистрироваться',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                                color: Colors.white),
+                          ),
+                    onPressed: () {
+                      if (controllerPassword.text.trim() ==
+                          controllerPasswordConfirm.text.trim()) {
+                        setState(() {
+                          isLoad = true;
+                        });
+                        verifyPhoneCompany(context,
+                            phoneNumber: controllerPhone.text.trim(),
+                            name: controllerCompanyName.text.trim(),
+                            password: controllerPassword.text.trim(),
+                            bin: controllerBIN.text.trim(),
+                            contact: controllerContactPerson.text.trim(),
+                            tenge: controllerTengeAccount.text.trim(),
+                            usd: controllerUSDAccount.text.trim(),
+                            years: controllerWorking.text.trim(),
+                            detail: controllerDetails.text.trim());
+                      }
+                    })),
           ],
         ),
       )),
@@ -178,6 +275,8 @@ class _RegisterTransportState extends State<RegisterTransport> {
     controllerTengeAccount?.dispose();
     controllerUSDAccount?.dispose();
     controllerWorking?.dispose();
+    controllerPassword?.dispose();
+    controllerPasswordConfirm?.dispose();
     super.dispose();
   }
 }

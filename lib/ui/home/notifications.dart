@@ -1,3 +1,4 @@
+import 'package:eralogistic/services/get/notifications.dart';
 import 'package:eralogistic/ui/icons.dart';
 import 'package:flutter/material.dart';
 
@@ -21,26 +22,28 @@ class _NotificationsState extends State<Notifications> {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                margin: const EdgeInsets.only(top: 100),
-                child: ListView(
-                  children: [
-                    container(
-                        number: '001 ААА 17',
-                        status: 'в пути',
-                        time: '5 минут назад',
-                        isRead: false),
-                    container(
-                        number: '001 ААА 17',
-                        status: 'в пути',
-                        time: '5 минут назад',
-                        isRead: false),
-                    container(
-                        number: '001 ААА 17',
-                        status: 'в пути',
-                        time: '5 минут назад',
-                        isRead: false)
-                  ],
-                ),
+                margin: const EdgeInsets.only(top: 110),
+                child: FutureBuilder(
+                    future: getAllNotification(),
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Text("Загрузка всех уведомлений");
+                      }
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          TextButton(
+                              onPressed: () => readNotifications(),
+                              child: const Text('Прочитать все уведомления')),
+                          ...snapshot.data.map<Widget>((map) {
+                            return container(
+                                number: map['waypoint']['car_number'],
+                                status: map['text'],
+                                isRead: map['is_old'] != 0 ? true : false);
+                          }).toList(),
+                        ],
+                      );
+                    }),
               ),
             ),
             Align(
@@ -92,9 +95,9 @@ class _NotificationsState extends State<Notifications> {
     );
   }
 
-  Widget container({String number, String status, String time, bool isRead}) {
+  Widget container({String number, String status, bool isRead}) {
     return Container(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: Flex(
         direction: Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -121,12 +124,12 @@ class _NotificationsState extends State<Notifications> {
                             ],
                           )
                         ])),
-                    Text(
-                      time,
-                      style: const TextStyle(
-                          color: Color.fromRGBO(171, 171, 171, 1),
-                          fontSize: 12),
-                    )
+                    // Text(
+                    //   time,
+                    //   style: const TextStyle(
+                    //       color: Color.fromRGBO(171, 171, 171, 1),
+                    //       fontSize: 12),
+                    // )
                   ])),
           Flexible(
               child: isRead

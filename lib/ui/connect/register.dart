@@ -68,11 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 controller: controllerPhone,
                                 keyboardType: TextInputType.phone,
                                 inputFormatters: [
-                                  PhoneInputFormatter(
-                                    onCountrySelected:
-                                        (PhoneCountryData countryData) {},
-                                    allowEndlessPhone: false,
-                                  )
+                                  MaskedInputFormatter('(###)###-##-##')
                                 ],
                                 decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.zero,
@@ -110,6 +106,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             child: TextField(
                                 controller: controllerPassword,
                                 keyboardType: TextInputType.text,
+                                obscureText: true,
+                                obscuringCharacter: "*",
                                 decoration: const InputDecoration(
                                     hintText: 'Придумайте пароль',
                                     border: InputBorder.none,
@@ -145,6 +143,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             child: TextField(
                                 controller: controllerConfirmPassword,
                                 keyboardType: TextInputType.text,
+                                obscureText: true,
+                                obscuringCharacter: "*",
                                 decoration: const InputDecoration(
                                     hintText: 'Подтвердите пароль',
                                     border: InputBorder.none,
@@ -223,6 +223,19 @@ class _RegisterPageState extends State<RegisterPage> {
                                         ),
                                         onPressed: () => Navigator.pushNamed(
                                             context, "/RegisterTransport"))),
+                                SizedBox(
+                                    height: 40,
+                                    child: TextButton(
+                                        child: const Text(
+                                          'Зарегистрироваться как частный перевозчик',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 15,
+                                              color: Colors.black),
+                                        ),
+                                        onPressed: () => Navigator.pushNamed(
+                                            context, "/RegisterPrivate"))),
                               ],
                             ),
                           ),

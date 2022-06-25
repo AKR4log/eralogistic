@@ -67,22 +67,18 @@ class _RegisterTransportState extends State<RegisterTransport> {
             inputTextCustom(
                 titleInput: 'Название компании',
                 controller: controllerCompanyName,
-                titleHint: '«Что-то там лоджистикс»',
                 icon: Icomoon.briefcase),
             inputTextCustom(
                 titleInput: 'Контактное лицо',
                 controller: controllerContactPerson,
-                titleHint: 'Сергей Сидорович',
                 icon: Icomoon.user),
             inputTextCustom(
                 titleInput: 'Ваша почта',
                 controller: controllerMail,
-                titleHint: 'info.transportlogistics@mail.kz',
                 icon: Icomoon.mail),
             inputPhoneCustom(
                 titleInput: 'Ваш телефон',
                 controller: controllerPhone,
-                titleHint: '+8 (1234) 56-78-91',
                 icon: Icomoon.phone_forwarded),
             Flex(
               direction: Axis.horizontal,
@@ -94,7 +90,6 @@ class _RegisterTransportState extends State<RegisterTransport> {
                   child: inputTextCustom(
                       titleInput: 'БИН',
                       controller: controllerBIN,
-                      titleHint: '12345678901112',
                       icon: Icomoon.credit_card),
                 ),
                 const SizedBox(width: 10),
@@ -103,7 +98,6 @@ class _RegisterTransportState extends State<RegisterTransport> {
                   child: inputTextCustom(
                       titleInput: 'С какого года работаете?',
                       controller: controllerWorking,
-                      titleHint: '1995',
                       icon: Icomoon.calendar),
                 )
               ],
@@ -112,15 +106,11 @@ class _RegisterTransportState extends State<RegisterTransport> {
                 titleInput: 'Ваш адрес',
                 controller: controllerAddress,
                 maxLines: 3,
-                titleHint:
-                    '010000, город Нур-Султан, район Байконур, ул. Мусина-Пушкина, д.125, строение 15, офис 225',
                 icon: Icomoon.map_pin),
             inputMaxLinesTextCustom(
               titleInput: 'Ваши реквизиты',
               controller: controllerDetails,
               maxLines: 12,
-              titleHint:
-                  'Товарищество с ограниченной ответственностью «Что-то там лоджистикс», \nдействующее на основании Устава, в лице директора Сергея Ивановича Нурлиева.\nКБЕ 17\nРеквизиты:\nСвидетельство о постановке на регистрационный учёт по НДС Серия 62001 № 0022386 от 10.08.2012 г.\nСвидетельство о государственной перерегистрации юридического лица № 12174-1901-ТОО от 27.12.2012 г.',
             ),
             Flex(
               direction: Axis.horizontal,
@@ -128,9 +118,8 @@ class _RegisterTransportState extends State<RegisterTransport> {
                 Flexible(
                   flex: 2,
                   child: inputTextCustom(
-                      titleInput: 'Счет в тенгэ',
+                      titleInput: 'Счет в тенге',
                       controller: controllerTengeAccount,
-                      titleHint: '12345678901112',
                       icon: Icomoon.credit_card),
                 ),
                 const SizedBox(width: 10),
@@ -139,7 +128,6 @@ class _RegisterTransportState extends State<RegisterTransport> {
                   child: inputTextCustom(
                       titleInput: 'Счет в USD',
                       controller: controllerUSDAccount,
-                      titleHint: 'kz123456987US',
                       icon: Icomoon.credit_card),
                 )
               ],

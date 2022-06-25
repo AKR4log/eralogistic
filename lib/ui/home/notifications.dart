@@ -36,10 +36,15 @@ class _NotificationsState extends State<Notifications> {
                               onPressed: () => readNotifications(),
                               child: const Text('Прочитать все уведомления')),
                           ...snapshot.data.map<Widget>((map) {
-                            return container(
-                                number: map['waypoint']['car_number'],
-                                status: map['text'],
-                                isRead: map['is_old'] != 0 ? true : false);
+                            return TextButton(
+                              onPressed: () {
+                                // map['text'];
+                              },
+                              child: container(
+                                  number: map['waypoint']['car_number'],
+                                  status: 'в пути',
+                                  isRead: map['is_old'] != 0 ? true : false),
+                            );
                           }).toList(),
                         ],
                       );
@@ -98,50 +103,60 @@ class _NotificationsState extends State<Notifications> {
   Widget container({String number, String status, bool isRead}) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-      child: Flex(
-        direction: Axis.horizontal,
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(
-              flex: 4,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        margin: const EdgeInsets.only(bottom: 5),
-                        child: Column(children: [
-                          const SizedBox(
-                              width: double.infinity,
-                              child: Text('Транспорт с номером')),
-                          Row(
-                            children: [
-                              Text(
-                                number,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w700),
-                              ),
-                              Text(' ' + status),
-                            ],
-                          )
-                        ])),
-                    // Text(
-                    //   time,
-                    //   style: const TextStyle(
-                    //       color: Color.fromRGBO(171, 171, 171, 1),
-                    //       fontSize: 12),
-                    // )
-                  ])),
-          Flexible(
-              child: isRead
-                  ? const SizedBox()
-                  : Container(
-                      width: 12,
-                      height: 12,
-                      margin: const EdgeInsets.only(right: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: const Color.fromRGBO(57, 94, 149, 1),
-                      )))
+          Flex(
+            direction: Axis.horizontal,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                  flex: 4,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            margin: const EdgeInsets.only(bottom: 5),
+                            child: Column(children: [
+                              const SizedBox(
+                                  width: double.infinity,
+                                  child: Text('Транспорт с номером')),
+                              Row(
+                                children: [
+                                  Text(
+                                    number,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                  Text(' ' + status),
+                                ],
+                              )
+                            ])),
+                        // Text(
+                        //   time,
+                        //   style: const TextStyle(
+                        //       color: Color.fromRGBO(171, 171, 171, 1),
+                        //       fontSize: 12),
+                        // )
+                      ])),
+              Flexible(
+                  child: isRead
+                      ? const SizedBox()
+                      : Container(
+                          width: 12,
+                          height: 12,
+                          margin: const EdgeInsets.only(right: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: const Color.fromRGBO(57, 94, 149, 1),
+                          )))
+            ],
+          ),
+          Container(
+            width: double.infinity,
+            height: 1.5,
+            color: Colors.grey,
+          )
         ],
       ),
     );

@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 
 Widget inputTextCustom(
-    {String titleInput,
-    TextEditingController controller,
-    String titleHint,
-    IconData icon}) {
+    {String titleInput, TextEditingController controller, IconData icon}) {
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 8),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -24,8 +21,6 @@ Widget inputTextCustom(
           decoration: InputDecoration(
               prefixIcon: Icon(icon,
                   color: const Color.fromRGBO(57, 94, 149, 1), size: 18),
-              hintText: titleHint,
-              // errorText: controller.text.isEmpty ? 'Error message' : null,
               border: InputBorder.none,
               hintStyle: const TextStyle(
                   fontWeight: FontWeight.w400,
@@ -41,7 +36,6 @@ Widget inputMaxLinesTextCustom(
     {String titleInput,
     int maxLines,
     TextEditingController controller,
-    String titleHint,
     IconData icon}) {
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 8),
@@ -70,18 +64,16 @@ Widget inputMaxLinesTextCustom(
                           size: 18),
                     ],
                   ),
-                  hintText: titleHint,
                   border: InputBorder.none,
                   hintStyle: const TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
                       color: Color.fromRGBO(45, 67, 80, 1)))
-              : InputDecoration(
-                  hintText: titleHint,
+              : const InputDecoration(
                   border: InputBorder.none,
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  hintStyle: const TextStyle(
+                  hintStyle: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 14,
                       color: Color.fromRGBO(45, 67, 80, 1))),
@@ -92,10 +84,7 @@ Widget inputMaxLinesTextCustom(
 }
 
 Widget inputPhoneCustom(
-    {String titleInput,
-    TextEditingController controller,
-    String titleHint,
-    IconData icon}) {
+    {String titleInput, TextEditingController controller, IconData icon}) {
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 8),
     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -111,14 +100,12 @@ Widget inputPhoneCustom(
         child: TextField(
           controller: controller,
           keyboardType: TextInputType.phone,
-          inputFormatters: [MaskedInputFormatter('(###)###-##-##')],
+          inputFormatters: [MaskedInputFormatter('+# (###) ### ####')],
           textInputAction: TextInputAction.next,
           decoration: InputDecoration(
               prefixIcon: Icon(icon,
                   color: const Color.fromRGBO(57, 94, 149, 1), size: 18),
               border: InputBorder.none,
-              hintText: titleHint,
-              // errorText: controller.text.isEmpty ? 'Error message' : null,
               hintStyle: const TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,

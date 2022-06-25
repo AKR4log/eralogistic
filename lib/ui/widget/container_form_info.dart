@@ -115,28 +115,7 @@ Widget container_form_info(
                       ],
                     ),
                   ))
-            ]),
-        Container(
-          margin: const EdgeInsets.only(top: 30),
-          width: 105,
-          height: 40,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: const Color.fromRGBO(57, 94, 149, 1)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text(
-                'Выбрать',
-                style: TextStyle(color: Colors.white),
-              ),
-              Icon(
-                Icons.chevron_right_sharp,
-                color: Colors.white,
-              )
-            ],
-          ),
-        )
+            ])
       ],
     ),
   );

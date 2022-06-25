@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                                 controller: controllerPhone,
                                 keyboardType: TextInputType.phone,
                                 inputFormatters: [
-                                  MaskedInputFormatter('(###)###-##-##')
+                                  MaskedInputFormatter('+# (###) ### ####')
                                 ],
                                 decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.zero,

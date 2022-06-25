@@ -68,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 controller: controllerPhone,
                                 keyboardType: TextInputType.phone,
                                 inputFormatters: [
-                                  MaskedInputFormatter('(###)###-##-##')
+                                  MaskedInputFormatter('+# (###) ### ####')
                                 ],
                                 decoration: const InputDecoration(
                                     contentPadding: EdgeInsets.zero,
@@ -160,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Container(
-                                  width: 232,
+                                  width: double.infinity,
                                   height: 40,
                                   margin: const EdgeInsets.only(
                                       bottom: 12, top: 50),
@@ -212,6 +212,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                                 SizedBox(
                                     height: 40,
+                                    width: double.infinity,
                                     child: TextButton(
                                         child: const Text(
                                           'Зарегистрироваться как компания',
@@ -225,6 +226,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                             context, "/RegisterTransport"))),
                                 SizedBox(
                                     height: 40,
+                                    width: double.infinity,
                                     child: TextButton(
                                         child: const Text(
                                           'Зарегистрироваться как частный перевозчик',

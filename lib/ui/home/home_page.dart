@@ -590,34 +590,52 @@ class _HomePageState extends State<HomePage> {
                               )
                             ])),
                     ...snapshot.data.map<Widget>((map) {
-                      return TextButton(
-                        onPressed: () {
-                          setState(() {
-                            idWaypoint = map['id'];
-                          });
-                        },
-                        child: container_form_info(
-                            icon: map['type_id'] != 1
-                                ? 'assets/img/icon/railway_carriage.png'
-                                : 'assets/img/icon/truck.png',
-                            percent: map['number'] != '-'
-                                ? map['number'].toString()
-                                : '0',
-                            percentD: map['number_d'].toDouble(),
-                            weight: map['available_weight'].toString(),
-                            volume: map['available_size'].toString(),
-                            fun: () {}),
-                      );
+                      // return TextButton(
+                      //   onPressed: () {
+                      // setState(() {
+                      //   idWaypoint = map['id'];
+                      // });
+                      //   },
+                      //   child: ),
+                      return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            container_form_info(
+                                icon: map['type_id'] != 1
+                                    ? 'assets/img/icon/railway_carriage.png'
+                                    : 'assets/img/icon/truck.png',
+                                percent: map['number'] != '-'
+                                    ? map['number'].toString()
+                                    : '0',
+                                percentD: map['number_d'].toDouble(),
+                                weight: map['available_weight'].toString(),
+                                volume: map['available_size'].toString()),
+                            Container(
+                              margin: const EdgeInsets.only(top: 30),
+                              width: 105,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: const Color.fromRGBO(57, 94, 149, 1)),
+                              child: TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      idWaypoint = map['id'];
+                                    });
+                                  },
+                                  child: idWaypoint == map['id']
+                                      ? const Text("Выбран")
+                                      : const Text('Выбрать')),
+                            )
+                          ]);
                     }).toList(),
                     inputTextCustom(
                         titleInput: 'Как вас зовут',
                         controller: controllerName,
-                        titleHint: 'Иван Иванов',
                         icon: Icomoon.user),
                     inputPhoneCustom(
                         titleInput: 'Номер телефона',
                         controller: controllerPhone,
-                        titleHint: '+8 (9548) 123-45-67',
                         icon: Icomoon.phone_forwarded),
                     Container(
                         width: double.infinity,

@@ -1,7 +1,8 @@
-import 'package:eralogistic/services/post/register_user.dart';
+import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/icons.dart';
 import 'package:eralogistic/ui/widget/input.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterTransport extends StatefulWidget {
   const RegisterTransport({Key key}) : super(key: key);
@@ -44,6 +45,7 @@ class _RegisterTransportState extends State<RegisterTransport> {
 
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<FeedServiceState>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
@@ -233,16 +235,15 @@ class _RegisterTransportState extends State<RegisterTransport> {
                         setState(() {
                           isLoad = true;
                         });
-                        verifyPhoneCompany(context,
-                            phoneNumber: controllerPhone.text.trim(),
-                            name: controllerCompanyName.text.trim(),
-                            password: controllerPassword.text.trim(),
-                            bin: controllerBIN.text.trim(),
-                            contact: controllerContactPerson.text.trim(),
-                            tenge: controllerTengeAccount.text.trim(),
-                            usd: controllerUSDAccount.text.trim(),
-                            years: controllerWorking.text.trim(),
-                            detail: controllerDetails.text.trim());
+                        state.registerCompany(
+                            context,
+                            controllerPassword.text.trim(),
+                            controllerPhone.text.trim(),
+                            controllerCompanyName.text.trim(),
+                            controllerContactPerson.text.trim(),
+                            controllerDetails.text.trim(),
+                            controllerTengeAccount.text.trim(),
+                            controllerUSDAccount.text.trim());
                       }
                     })),
           ],

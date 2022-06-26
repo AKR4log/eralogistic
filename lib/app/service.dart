@@ -1,12 +1,33 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<bool> setId(String value) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.setString('id', value);
+}
+
+String getRandString(int len) {
+  var random = Random.secure();
+  var values = List<int>.generate(len, (i) => random.nextInt(255));
+  return base64UrlEncode(values);
+}
+
+getToken() async {
+  final res = await http
+      .post(Uri.parse('https://epohalogistic.kz/api/sanctum/register'), body: {
+    "name": getRandString(10).toString(),
+    "password": getRandString(7).toString(),
+    "email": getRandString(20).toString(),
+    "device_name": getRandString(15).toString()
+  }, headers: {
+    'Accept': 'application/json',
+  });
+  if (res.statusCode == 200) {
+    return json.decode(res.body);
+  }
 }
 
 Future<String> getId() async {
@@ -142,25 +163,4 @@ Future<bool> setBIN(String value) async {
 Future<String> getBIN() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString('BIN');
-}
-
-getToken() async {
-  final res = await http
-      .post(Uri.parse('https://epohalogistic.kz/api/sanctum/register'), body: {
-    "name": getRandString(10).toString(),
-    "password": getRandString(7).toString(),
-    "email": getRandString(20).toString(),
-    "device_name": getRandString(15).toString()
-  }, headers: {
-    'Accept': 'application/json',
-  });
-  if (res.statusCode == 200) {
-    return json.decode(res.body);
-  }
-}
-
-String getRandString(int len) {
-  var random = Random.secure();
-  var values = List<int>.generate(len, (i) => random.nextInt(255));
-  return base64UrlEncode(values);
 }

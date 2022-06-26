@@ -1,7 +1,8 @@
-import 'package:eralogistic/services/post/auth.dart';
+import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/widget/appbar_back.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -13,6 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerPhone = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  bool load = false;
 
   @override
   void initState() {
@@ -23,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<FeedServiceState>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
           child: Column(
@@ -125,31 +128,43 @@ class _LoginPageState extends State<LoginPage> {
                                   margin: const EdgeInsets.only(
                                       bottom: 12, top: 50),
                                   child: TextButton(
-                                    style: ButtonStyle(
-                                      shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
-                                          RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
-                                      )),
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              const Color.fromRGBO(
-                                                  57, 94, 149, 1)),
-                                      padding: MaterialStateProperty.all(
-                                          EdgeInsets.zero),
-                                    ),
-                                    child: const Text(
-                                      'Войти',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17,
-                                          color: Colors.white),
-                                    ),
-                                    onPressed: () => auth(
-                                        controllerPhone.text.trim(),
-                                        controllerPassword.text.trim(),
-                                        context),
-                                  ),
+                                      style: ButtonStyle(
+                                        shape: MaterialStateProperty.all<
+                                                RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        )),
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                const Color.fromRGBO(
+                                                    57, 94, 149, 1)),
+                                        padding: MaterialStateProperty.all(
+                                            EdgeInsets.zero),
+                                      ),
+                                      child: load
+                                          ? const SizedBox(
+                                              height: 25,
+                                              width: 25,
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            )
+                                          : const Text(
+                                              'Войти',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 17,
+                                                  color: Colors.white),
+                                            ),
+                                      onPressed: () {
+                                        setState(() {
+                                          load = true;
+                                        });
+                                        state.auth(
+                                            controllerPhone.text.trim(),
+                                            controllerPassword.text.trim(),
+                                            context);
+                                      }),
                                 ),
                                 SizedBox(
                                     width: 232,

@@ -1,7 +1,8 @@
-import 'package:eralogistic/services/post/register_user.dart';
+import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/widget/appbar_back.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPrivate extends StatefulWidget {
   const RegisterPrivate({Key key}) : super(key: key);
@@ -30,6 +31,7 @@ class _RegisterPrivateState extends State<RegisterPrivate> {
 
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<FeedServiceState>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
           child: Column(
@@ -274,14 +276,12 @@ class _RegisterPrivateState extends State<RegisterPrivate> {
                                         setState(() {
                                           load = true;
                                         });
-                                        verifyPhonePrivate(context,
-                                            phoneNumber:
-                                                controllerPhone.text.trim(),
-                                            password:
-                                                controllerPassword.text.trim(),
-                                            fio: controllerName.text.trim(),
-                                            detail:
-                                                controllerDetail.text.trim());
+                                        state.registerPrivate(
+                                            context,
+                                            controllerPassword.text.trim(),
+                                            controllerPhone.text.trim(),
+                                            controllerDetail.text.trim(),
+                                            controllerName.text.trim());
                                       } else {
                                         setState(() {
                                           errorConfirmPassword = true;

@@ -1,9 +1,13 @@
 import 'dart:convert';
 
-import 'package:eralogistic/services/storage.dart';
+import 'package:eralogistic/app/service.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-getAllNotification() async {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+getNewNotification() async {
   var id = await getId();
   var token = await getToken();
   final res = await http.get(
@@ -15,7 +19,6 @@ getAllNotification() async {
   if (res.statusCode == 200) {
     var data = json.decode(res.body);
     var rest = data["data"] as List;
-
     return rest;
   }
 }

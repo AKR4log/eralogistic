@@ -1,7 +1,8 @@
-import 'package:eralogistic/services/post/register_user.dart';
+import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/widget/appbar_back.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key key}) : super(key: key);
@@ -26,6 +27,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<FeedServiceState>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
           child: Column(
@@ -198,10 +200,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                         setState(() {
                                           load = true;
                                         });
-                                        verifyPhone(
+                                        state.register(
+                                            context,
                                             controllerPhone.text.trim(),
-                                            controllerPassword.text.trim(),
-                                            context);
+                                            controllerPassword.text.trim());
                                       } else {
                                         setState(() {
                                           errorConfirmPassword = true;
@@ -219,13 +221,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               color: Colors.black),
                                         ),
                                         onPressed: () => Navigator.pushNamed(
                                             context, "/RegisterTransport"))),
                                 SizedBox(
-                                    height: 40,
+                                    height: 60,
                                     width: double.infinity,
                                     child: TextButton(
                                         child: const Text(
@@ -233,7 +235,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
                                               fontWeight: FontWeight.w500,
-                                              fontSize: 15,
+                                              fontSize: 14,
                                               color: Colors.black),
                                         ),
                                         onPressed: () => Navigator.pushNamed(

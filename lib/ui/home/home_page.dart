@@ -1,14 +1,14 @@
-import 'package:eralogistic/services/get/city.dart';
-import 'package:eralogistic/services/get/types.dart';
-import 'package:eralogistic/services/post/create_order.dart';
-import 'package:eralogistic/services/post/search_auto.dart';
-import 'package:eralogistic/services/storage.dart';
+import 'package:eralogistic/app/notification.dart';
+import 'package:eralogistic/app/service.dart';
+import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/icons.dart';
 import 'package:eralogistic/ui/widget/appbar.dart';
 import 'package:eralogistic/ui/widget/container_form_info.dart';
 import 'package:eralogistic/ui/widget/infoblock.dart';
 import 'package:eralogistic/ui/widget/input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   TextEditingController controllerName = TextEditingController();
   TextEditingController controllerPhone = TextEditingController();
   String valTrack, valFrom, valFor;
-  var idWaypoint;
+  var idWaypoint, newMessage;
   bool errValTrack = false,
       errValFrom = false,
       errValFor = false,
@@ -42,6 +42,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<FeedServiceState>(context, listen: false);
     return Scaffold(
       appBar: appBarCustom(context),
       body: SingleChildScrollView(
@@ -110,8 +111,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget oneStep() {
-    // controllerName.text = getName() as String;
-    // controllerPhone.text = getPhone() as String;
+    var state = Provider.of<FeedServiceState>(context, listen: false);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
@@ -191,7 +191,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FutureBuilder(
-                    future: getType(),
+                    future: state.getType(),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
                         return const Text("Loading");
@@ -297,7 +297,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FutureBuilder(
-                    future: getCity(),
+                    future: state.getCity(),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
                         return const Text("Loading");
@@ -403,7 +403,7 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 FutureBuilder(
-                    future: getCity(),
+                    future: state.getCity(),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
                         return const Text("Loading");
@@ -536,8 +536,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget twoStep() {
+    var state = Provider.of<FeedServiceState>(context, listen: false);
     return FutureBuilder(
-        future: searchAuto(valTrack, valFrom, valFor),
+        future: state.searchAuto(valTrack, valFrom, valFor),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
             return const SizedBox(
@@ -624,8 +625,14 @@ class _HomePageState extends State<HomePage> {
                                     });
                                   },
                                   child: idWaypoint == map['id']
-                                      ? const Text("Выбран")
-                                      : const Text('Выбрать')),
+                                      ? const Text(
+                                          "Выбран",
+                                          style: TextStyle(color: Colors.white),
+                                        )
+                                      : const Text(
+                                          'Выбрать',
+                                          style: TextStyle(color: Colors.white),
+                                        )),
                             )
                           ]);
                     }).toList(),
@@ -674,7 +681,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             onPressed: () {
                               if (idWaypoint != null && idWaypoint != '') {
-                                createOrder(
+                                state.createOrder(
                                     idWaypoint.toString(),
                                     controllerName.text.trim(),
                                     controllerPhone.text.trim(),

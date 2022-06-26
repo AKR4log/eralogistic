@@ -9,6 +9,7 @@ import 'package:eralogistic/ui/connect/register.dart';
 import 'package:eralogistic/ui/home/home_page.dart';
 import 'package:eralogistic/ui/home/notifications.dart';
 import 'package:eralogistic/ui/home/profile.dart';
+import 'package:eralogistic/ui/home/special.dart';
 import 'package:eralogistic/ui/home/workshop/register_private.dart';
 import 'package:eralogistic/ui/home/workshop/register_transport.dart';
 import 'package:eralogistic/ui/splash.dart';
@@ -59,6 +60,10 @@ class Routes {
       case "RegisterPrivate":
         return SlideLeftRoute<bool>(
             builder: (BuildContext context) => const RegisterPrivate());
+        break;
+      case "SpecialPage":
+        return SlideLeftRoute<bool>(
+            builder: (BuildContext context) => const SpecialPage());
         break;
 
       case "ComfirmCode":

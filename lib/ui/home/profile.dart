@@ -1,7 +1,8 @@
-import 'package:eralogistic/services/get/orders.dart';
-import 'package:eralogistic/services/storage.dart';
+import 'package:eralogistic/app/service.dart';
+import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/icons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Profile extends StatefulWidget {
@@ -14,6 +15,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
+    var state = Provider.of<FeedServiceState>(context, listen: false);
     return Scaffold(
       body: SingleChildScrollView(
           child: SizedBox(
@@ -25,14 +27,8 @@ class _ProfileState extends State<Profile> {
               alignment: Alignment.center,
               child: Container(
                 padding: const EdgeInsets.only(top: 120, bottom: 100),
-                // child: ListView(
-                //   children: [
-                //     container('assets/img/icon/truck.png'),
-                //     container('assets/img/icon/truck.png')
-                //   ],
-                // ),
                 child: FutureBuilder(
-                    future: getOrdersUser(),
+                    future: state.getOrdersUser(),
                     builder: (context, snapshot) {
                       if (snapshot.data == null) {
                         return const Text("Загрузка ваших заявок");
@@ -40,19 +36,81 @@ class _ProfileState extends State<Profile> {
                       if (snapshot.data.length != 0) {
                         return ListView(
                             children: snapshot.data.map<Widget>((map) {
+                          var citys = [
+                            {"id": 1, "name": "Алматы"},
+                            {"id": 2, "name": "Нур-Султан"},
+                            {"id": 3, "name": "Шымкент"},
+                            {"id": 4, "name": "Актобе"},
+                            {"id": 5, "name": "Караганда"},
+                            {"id": 6, "name": "Атырау"},
+                            {"id": 7, "name": "Тараз"},
+                            {"id": 8, "name": "Павлодар"},
+                            {"id": 9, "name": "Семей"},
+                            {"id": 10, "name": "Усть-Каменогорск"},
+                            {"id": 11, "name": "Кызылорда"},
+                            {"id": 12, "name": "Уральск"},
+                            {"id": 13, "name": "Костанай"},
+                            {"id": 14, "name": "Петропавловск"},
+                            {"id": 15, "name": "Актау"},
+                            {"id": 16, "name": "Темиртау"},
+                            {"id": 17, "name": "Туркестан"},
+                            {"id": 18, "name": "Талдыкорган"},
+                            {"id": 19, "name": "Кокшетау"},
+                            {"id": 20, "name": "Жанаозен"},
+                            {"id": 21, "name": "Экибастуз"},
+                            {"id": 22, "name": "Рудный"},
+                            {"id": 23, "name": "Shanghai-Шанхай"},
+                            {"id": 24, "name": "Guangzhou-Гуанчжоу"},
+                            {"id": 25, "name": "Yiwu- Иу (Цзиньхуа)"},
+                            {"id": 26, "name": "Xi'an -Сиань"},
+                            {"id": 27, "name": "Tianjin-Тяньцзинь"},
+                            {"id": 28, "name": "Shenzhen-Шэньчжэнь"},
+                            {"id": 29, "name": "Ningbo- Нинбо"},
+                            {
+                              "id": 30,
+                              "name":
+                                  "Урумчи –  Wūlǔmùqí – административный центр Синьцзян-Уйгурского автономного района"
+                            }
+                          ];
+
+                          var statusL = [
+                            {"id": 1, "name": "Загружается"},
+                            {"id": 2, "name": "В пути"},
+                            {"id": 3, "name": "Завершенно"},
+                            {"id": 4, "name": "Отменен"}
+                          ];
+
+                          var start = citys.where((oldValue) =>
+                              map['get_waypoint']['departure_city_id']
+                                  .toString() ==
+                              (oldValue['id'].toString()));
+                          var end = citys.where((oldValue) =>
+                              map['get_waypoint']['arrival_city_id']
+                                  .toString() ==
+                              (oldValue['id'].toString()));
+
+                          var status = statusL.where((oldValue) =>
+                              map['get_waypoint']['car_status_id'].toString() ==
+                              (oldValue['id'].toString()));
+
                           return container(
-                            icon: map['get_waypoint']['type_id'] != 1
-                                ? 'assets/img/icon/railway_carriage.png'
-                                : 'assets/img/icon/truck.png',
-                            number: map['get_waypoint']['car_number'],
-                            departure_date: map['get_waypoint']
-                                ['departure_date'],
-                            travel_time: map['get_waypoint']['travel_time'],
-                            arrival_date: map['get_waypoint']['arrival_date'],
-                            weight: map['get_waypoint']['weight'],
-                            volume: map['get_waypoint']['size'],
-                            packages: map['get_waypoint']['packages_qty'],
-                          );
+                              icon: map['get_waypoint']['type_id'] != 1
+                                  ? 'assets/img/icon/railway_carriage.png'
+                                  : 'assets/img/icon/truck.png',
+                              number: map['get_waypoint']['car_number'] ?? '',
+                              departure_date:
+                                  map['get_waypoint']['departure_date'] ?? '0',
+                              travel_time:
+                                  map['get_waypoint']['travel_time'] ?? '0',
+                              arrival_date:
+                                  map['get_waypoint']['arrival_date'] ?? '0',
+                              weight: map['get_waypoint']['weight'] ?? '0 кг',
+                              volume: map['get_waypoint']['size'] ?? '0 м.куб',
+                              packages: map['get_waypoint']['packages_qty'] ??
+                                  '0 шт.',
+                              start: start.first,
+                              end: end.first,
+                              status_id: status.first);
                         }).toList());
                       }
                       return const SizedBox(
@@ -129,7 +187,7 @@ class _ProfileState extends State<Profile> {
                                     .whenComplete(() => Navigator.pushNamed(
                                         context, "/StartPage"))));
                           },
-                          icon: Icon(Icons.arrow_forward_rounded))
+                          icon: const Icon(Icons.arrow_forward_rounded))
                     ]),
               ),
             ),
@@ -147,7 +205,12 @@ class _ProfileState extends State<Profile> {
       String arrival_date,
       String weight,
       String volume,
-      String packages}) {
+      String packages,
+      dynamic status_id,
+      dynamic start,
+      dynamic end,
+      String distance,
+      String passed}) {
     return Container(
       margin: const EdgeInsets.all(17),
       decoration: BoxDecoration(
@@ -174,14 +237,14 @@ class _ProfileState extends State<Profile> {
                     color: const Color.fromRGBO(57, 94, 149, 1),
                   ),
                 ),
-                const Text(
-                  'Транспорт в пути',
-                  style: TextStyle(
+                Text(
+                  'Транспорт - №$number',
+                  style: const TextStyle(
                     color: Color.fromRGBO(57, 94, 149, 1),
                   ),
                 ),
                 Text(
-                  'Номер: $number',
+                  'Статус: ${status_id['name']}',
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
@@ -192,16 +255,11 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 34),
+            margin: const EdgeInsets.only(top: 14),
             padding: const EdgeInsets.symmetric(horizontal: 36),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Машина в пути',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, color: Colors.black),
-                ),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 2),
                   child: Row(
@@ -215,7 +273,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       Text(
                         departure_date,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )
@@ -235,7 +293,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       Text(
                         travel_time,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )
@@ -255,7 +313,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       Text(
                         arrival_date,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )
@@ -266,16 +324,10 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.symmetric(vertical: 34),
             padding: const EdgeInsets.symmetric(horizontal: 36),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Машина в пути',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, color: Colors.black),
-                ),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 2),
                   child: Row(
@@ -287,9 +339,9 @@ class _ProfileState extends State<Profile> {
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       ),
-                      const Text(
-                        'Караганда',
-                        style: TextStyle(
+                      Text(
+                        start['name'],
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )
@@ -307,9 +359,9 @@ class _ProfileState extends State<Profile> {
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       ),
-                      const Text(
-                        'Усть-Каменогорск',
-                        style: TextStyle(
+                      Text(
+                        end['name'],
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )
@@ -327,9 +379,9 @@ class _ProfileState extends State<Profile> {
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       ),
-                      const Text(
-                        '758 км',
-                        style: TextStyle(
+                      Text(
+                        distance ?? '0',
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )
@@ -347,9 +399,9 @@ class _ProfileState extends State<Profile> {
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       ),
-                      const Text(
-                        '158 км',
-                        style: TextStyle(
+                      Text(
+                        passed ?? '0',
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )
@@ -360,16 +412,11 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: 34, bottom: 70),
+            margin: const EdgeInsets.only(bottom: 35),
             padding: const EdgeInsets.symmetric(horizontal: 36),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Данные по грузу',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, color: Colors.black),
-                ),
                 Container(
                   margin: const EdgeInsets.symmetric(vertical: 2),
                   child: Row(
@@ -382,8 +429,8 @@ class _ProfileState extends State<Profile> {
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       ),
                       Text(
-                        '$weight кг',
-                        style: TextStyle(
+                        weight,
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )
@@ -402,8 +449,8 @@ class _ProfileState extends State<Profile> {
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       ),
                       Text(
-                        '$volume м.куб',
-                        style: TextStyle(
+                        volume,
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )
@@ -422,8 +469,8 @@ class _ProfileState extends State<Profile> {
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       ),
                       Text(
-                        '$packages шт.',
-                        style: TextStyle(
+                        packages,
+                        style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Color.fromRGBO(55, 65, 81, 1)),
                       )

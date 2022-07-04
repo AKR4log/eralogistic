@@ -109,9 +109,7 @@ class FeedServiceState extends AppState {
 
   Future<void> verifyPhone(context, phoneNumber) async {
     final PhoneVerificationCompleted verificationCompleted =
-        (AuthCredential authResult) async {
-      Navigator.pushReplacementNamed(context, "/HomePage");
-    };
+        (AuthCredential authResult) async {};
 
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException authException) {};
@@ -133,9 +131,7 @@ class FeedServiceState extends AppState {
 
   Future<void> verifyPhonePrivate(context, phoneNumber) async {
     final PhoneVerificationCompleted verificationCompleted =
-        (AuthCredential authResult) async {
-      Navigator.pushReplacementNamed(context, "/SpecialPage");
-    };
+        (AuthCredential authResult) async {};
 
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException authException) {};
@@ -157,9 +153,7 @@ class FeedServiceState extends AppState {
 
   Future<void> verifyPhoneCompany(context, phoneNumber) async {
     final PhoneVerificationCompleted verificationCompleted =
-        (AuthCredential authResult) async {
-      Navigator.pushReplacementNamed(context, "/SpecialPage");
-    };
+        (AuthCredential authResult) async {};
 
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException authException) {};

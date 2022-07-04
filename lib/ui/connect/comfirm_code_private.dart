@@ -1,7 +1,7 @@
 import 'package:eralogistic/ui/widget/appbar_back.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pin_view/pin_view.dart';
+// import 'package:pin_view/pin_view.dart';
 import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +14,13 @@ class ComfirmCodePrivate extends StatefulWidget {
 }
 
 class _ComfirmCodePrivateState extends State<ComfirmCodePrivate> {
-  String pincode;
+  TextEditingController pincode = TextEditingController();
+
+  @override
+  void initState() {
+    pincode = TextEditingController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,19 +54,28 @@ class _ComfirmCodePrivateState extends State<ComfirmCodePrivate> {
                   ),
                   Container(
                     margin: const EdgeInsets.symmetric(horizontal: 50),
-                    child: PinView(
-                        count: 6,
-                        autoFocusFirstField: true,
-                        margin: const EdgeInsets.all(2),
-                        obscureText: false,
-                        style: const TextStyle(
-                            fontSize: 24.0, fontWeight: FontWeight.w600),
-                        submit: (String pin) {
-                          setState(() {
-                            pincode = pin;
-                          });
-                          phoneConfirm(pin, widget.verificationID, context);
-                        }),
+                    // child: PinView(
+                    //     count: 6,
+                    //     autoFocusFirstField: true,
+                    //     margin: const EdgeInsets.all(2),
+                    //     obscureText: false,
+                    //     style: const TextStyle(
+                    //         fontSize: 24.0, fontWeight: FontWeight.w600),
+                    //     submit: (String pin) {
+                    //       setState(() {
+                    //         pincode = pin;
+                    //       });
+                    //       phoneConfirm(pin, widget.verificationID, context);
+                    //     }),
+                    child: TextField(
+                        controller: pincode,
+                        keyboardType: TextInputType.number,
+                        decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.zero,
+                            hintStyle: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: Color.fromRGBO(171, 171, 171, 1)))),
                   ),
                   SizedBox(
                     width: double.infinity,
@@ -91,8 +106,8 @@ class _ComfirmCodePrivateState extends State<ComfirmCodePrivate> {
                                   color: Colors.white),
                             ),
                             onPressed: () {
-                              phoneConfirm(
-                                  pincode, widget.verificationID, context);
+                              phoneConfirm(pincode.text.trim(),
+                                  widget.verificationID, context);
                             },
                           ),
                         ),
@@ -110,6 +125,12 @@ class _ComfirmCodePrivateState extends State<ComfirmCodePrivate> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    pincode?.dispose();
+    super.dispose();
   }
 
   phoneConfirm(smsCODE, verID, context) {

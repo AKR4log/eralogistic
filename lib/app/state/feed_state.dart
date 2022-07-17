@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, prefer_function_declarations_over_variables, non_constant_identifier_names
+// ignore_for_file: unused_local_variable, prefer_function_declarations_over_variables, non_constant_identifier_names, missing_return
 
 import 'dart:convert';
 import 'dart:math';
@@ -60,6 +60,8 @@ class FeedServiceState extends AppState {
 
   auth(String phone, String password, BuildContext context) async {
     var token = await getToken();
+    authStatus = AuthStatus.NOT_LOGGED_IN;
+
     final res = await http.post(Uri.parse('https://epohalogistic.kz/api/login'),
         body: {
           "phone": phone,
@@ -82,6 +84,15 @@ class FeedServiceState extends AppState {
           () => setName(json.decode(res.body)['name'].toString()).whenComplete(
               () => setId(json.decode(res.body)['id'].toString()).whenComplete(
                   () => Navigator.pushReplacementNamed(context, "/HomePage"))));
+    }
+    if (res.statusCode == 422) {
+      authStatus = AuthStatus.PASSWORD_REQUIRED;
+    }
+    if (res.statusCode == 503) {
+      authStatus = AuthStatus.LOGIN_INVALID;
+    }
+    if (res.statusCode == 504) {
+      authStatus = AuthStatus.PHONE_NOT_EXIST;
     }
   }
 
@@ -173,8 +184,10 @@ class FeedServiceState extends AppState {
         codeAutoRetrievalTimeout: autoRetrievalTimeout);
   }
 
-  register(BuildContext context, String phone, String password) async {
+  Future<bool> register(
+      BuildContext context, String phone, String password) async {
     var token = await getToken();
+    authStatus = AuthStatus.NOT_LOGGED_IN;
     var name = getRandString(6).toString();
 
     final res = await http
@@ -187,16 +200,21 @@ class FeedServiceState extends AppState {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${token['token']}'
     });
+    debugPrint(res.statusCode.toString());
     if (res.statusCode == 201) {
       return setId(json.decode(res.body)['id'].toString()).whenComplete(() =>
           setName(name).whenComplete(() =>
               setPhone(phone).whenComplete(() => verifyPhone(context, phone))));
     }
+    if (res.statusCode == 504) {
+      return false;
+    }
   }
 
-  registerPrivate(BuildContext context, String password, String phone,
-      String detail, String fio) async {
+  Future<bool> registerPrivate(BuildContext context, String password,
+      String phone, String detail, String fio) async {
     var token = await getToken();
+    authStatus = AuthStatus.NOT_LOGGED_IN;
 
     final res = await http
         .post(Uri.parse('https://epohalogistic.kz/api/create-user'), body: {
@@ -210,12 +228,16 @@ class FeedServiceState extends AppState {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${token['token']}'
     });
+    debugPrint(res.statusCode.toString());
     if (res.statusCode == 201) {
-      return verifyPhonePrivate(context, phone);
+      verifyPhonePrivate(context, phone);
+    }
+    if (res.statusCode == 504) {
+      return false;
     }
   }
 
-  registerCompany(
+  Future<bool> registerCompany(
       BuildContext context,
       String password,
       String phone,
@@ -225,6 +247,7 @@ class FeedServiceState extends AppState {
       String tenge,
       String usd) async {
     var token = await getToken();
+    authStatus = AuthStatus.NOT_LOGGED_IN;
 
     final res = await http
         .post(Uri.parse('https://epohalogistic.kz/api/create-user'), body: {
@@ -242,8 +265,12 @@ class FeedServiceState extends AppState {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${token['token']}'
     });
+    debugPrint(res.statusCode.toString());
     if (res.statusCode == 201) {
-      return verifyPhoneCompany(context, phone);
+      verifyPhoneCompany(context, phone);
+    }
+    if (res.statusCode == 504) {
+      return false;
     }
   }
 
@@ -341,6 +368,8 @@ class FeedServiceState extends AppState {
       var rest = data["data"] as List;
 
       return rest;
+    } else {
+      throw Exception();
     }
   }
 

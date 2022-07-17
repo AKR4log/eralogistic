@@ -1,3 +1,4 @@
+import 'package:eralogistic/app/enum/auth_s.dart';
 import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/widget/appbar_back.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _RegisterPrivateState extends State<RegisterPrivate> {
   TextEditingController controllerName = TextEditingController();
   TextEditingController controllerDetail = TextEditingController();
   TextEditingController controllerConfirmPassword = TextEditingController();
-  bool errorConfirmPassword = false, load = false;
+  bool errorConfirmPassword = false, load = false, errorStatus = false;
 
   @override
   void initState() {
@@ -232,6 +233,12 @@ class _RegisterPrivateState extends State<RegisterPrivate> {
                                         color:
                                             Color.fromRGBO(171, 171, 171, 1)))),
                           ),
+                          errorStatus
+                              ? Text(
+                                  'Данный телефон зарегистрирован.',
+                                  style: TextStyle(color: Colors.red[400]),
+                                )
+                              : const SizedBox(),
                           SizedBox(
                             width: double.infinity,
                             child: Column(
@@ -274,16 +281,25 @@ class _RegisterPrivateState extends State<RegisterPrivate> {
                                           controllerConfirmPassword.text
                                               .trim()) {
                                         setState(() {
+                                          errorStatus = false;
                                           load = true;
                                         });
-                                        state.registerPrivate(
-                                            context,
-                                            controllerPassword.text.trim(),
-                                            controllerPhone.text.trim(),
-                                            controllerDetail.text.trim(),
-                                            controllerName.text.trim());
+                                        state
+                                            .registerPrivate(
+                                                context,
+                                                controllerPassword.text.trim(),
+                                                controllerPhone.text.trim(),
+                                                controllerDetail.text.trim(),
+                                                controllerName.text.trim())
+                                            .whenComplete(() {
+                                          setState(() {
+                                            errorStatus = true;
+                                            load = false;
+                                          });
+                                        });
                                       } else {
                                         setState(() {
+                                          errorStatus = false;
                                           errorConfirmPassword = true;
                                         });
                                       }

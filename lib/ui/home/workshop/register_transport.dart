@@ -1,3 +1,4 @@
+import 'package:eralogistic/app/enum/auth_s.dart';
 import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/icons.dart';
 import 'package:eralogistic/ui/widget/input.dart';
@@ -24,7 +25,7 @@ class _RegisterTransportState extends State<RegisterTransport> {
   TextEditingController controllerBIN = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   TextEditingController controllerPasswordConfirm = TextEditingController();
-  bool isLoad = false;
+  bool isLoad = false, errorStatus = false;
 
   @override
   void initState() {
@@ -202,6 +203,12 @@ class _RegisterTransportState extends State<RegisterTransport> {
                     ),
                   ]),
             ),
+            errorStatus
+                ? Text(
+                    'Данный телефон зарегистрирован.',
+                    style: TextStyle(color: Colors.red[400]),
+                  )
+                : const SizedBox(),
             Container(
                 width: 232,
                 height: 40,
@@ -233,17 +240,25 @@ class _RegisterTransportState extends State<RegisterTransport> {
                       if (controllerPassword.text.trim() ==
                           controllerPasswordConfirm.text.trim()) {
                         setState(() {
+                          errorStatus = false;
                           isLoad = true;
                         });
-                        state.registerCompany(
-                            context,
-                            controllerPassword.text.trim(),
-                            controllerPhone.text.trim(),
-                            controllerCompanyName.text.trim(),
-                            controllerContactPerson.text.trim(),
-                            controllerDetails.text.trim(),
-                            controllerTengeAccount.text.trim(),
-                            controllerUSDAccount.text.trim());
+                        state
+                            .registerCompany(
+                                context,
+                                controllerPassword.text.trim(),
+                                controllerPhone.text.trim(),
+                                controllerCompanyName.text.trim(),
+                                controllerContactPerson.text.trim(),
+                                controllerDetails.text.trim(),
+                                controllerTengeAccount.text.trim(),
+                                controllerUSDAccount.text.trim())
+                            .whenComplete(() {
+                          setState(() {
+                            errorStatus = true;
+                            isLoad = false;
+                          });
+                        });
                       }
                     })),
           ],

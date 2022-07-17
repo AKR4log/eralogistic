@@ -15,26 +15,27 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  Timer.periodic(const Duration(seconds: 10), (_) async {
-    var newMessage = await getNewNotification();
-    if (newMessage != null && newMessage != '') {
-      flutterLocalNotificationsPlugin
-          .show(
-            newMessage.hashCode,
-            'Новое уведомление',
-            newMessage[0]['text'].toString(),
-            const NotificationDetails(
-              android: AndroidNotificationDetails(
-                'eralogistic',
-                'com.akr4log.eralogistic',
-                icon: 'mini_logo',
-                priority: Priority.high,
-              ),
-            ),
-          )
-          .whenComplete(() => readNotifications());
-    }
-  });
+
+  // Timer.periodic(const Duration(seconds: 5), (_) async {
+  //   var newMessage = await getNewNotification();
+  //   if (newMessage != null && newMessage != '') {
+  //     flutterLocalNotificationsPlugin
+  //         .show(
+  //           newMessage.hashCode,
+  //           'Новое уведомление',
+  //           newMessage[0]['text'].toString(),
+  //           const NotificationDetails(
+  //             android: AndroidNotificationDetails(
+  //               'eralogistic',
+  //               'com.akr4log.eralogistic',
+  //               icon: 'mini_logo',
+  //               priority: Priority.high,
+  //             ),
+  //           ),
+  //         )
+  //         .whenComplete(() => readNotifications());
+  //   }
+  // });
 
   runApp(const MyApp());
 }

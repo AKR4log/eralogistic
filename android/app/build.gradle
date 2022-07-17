@@ -59,8 +59,8 @@ android {
         applicationId "com.akr4log.eralogistic"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 10
-        versionName "1.0.0.494"
+        versionCode 11
+        versionName "1.0.1.524"
     }
 
     signingConfigs {

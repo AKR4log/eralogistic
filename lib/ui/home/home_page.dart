@@ -1,5 +1,8 @@
+// ignore_for_file: missing_required_param
+
 import 'package:eralogistic/app/notification.dart';
 import 'package:eralogistic/app/service.dart';
+import 'package:eralogistic/app/state/controllers.dart';
 import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/icons.dart';
 import 'package:eralogistic/ui/widget/appbar.dart';
@@ -8,6 +11,7 @@ import 'package:eralogistic/ui/widget/infoblock.dart';
 import 'package:eralogistic/ui/widget/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -196,56 +200,90 @@ class _HomePageState extends State<HomePage> {
                       if (snapshot.data == null) {
                         return const Text("Loading");
                       }
-                      return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              border: errValTrack
-                                  ? Border.all(
-                                      width: 1,
-                                      color:
-                                          const Color.fromRGBO(220, 38, 38, 1))
-                                  : Border.all(
-                                      width: 1,
-                                      color: const Color.fromRGBO(
-                                          156, 163, 175, 1))),
-                          child: DropdownButton<String>(
-                            value: valTrack,
-                            isExpanded: true,
-                            underline: const SizedBox(),
-                            borderRadius: BorderRadius.circular(8),
-                            hint: Row(
-                              children: const [
-                                Icon(
-                                  Icomoon.truck,
-                                  size: 18,
-                                  color: Color.fromRGBO(57, 94, 149, 1),
-                                ),
-                                SizedBox(width: 11),
-                                SizedBox(
-                                  width: 210,
-                                  child: Text(
-                                    "На чем будем везти",
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                              ],
+                      // return Container(
+                      //     padding: const EdgeInsets.symmetric(horizontal: 15),
+                      //     decoration: BoxDecoration(
+                      //         borderRadius: BorderRadius.circular(8),
+                      //         border: errValTrack
+                      //             ? Border.all(
+                      //                 width: 1,
+                      //                 color:
+                      //                     const Color.fromRGBO(220, 38, 38, 1))
+                      //             : Border.all(
+                      //                 width: 1,
+                      //                 color: const Color.fromRGBO(
+                      //                     156, 163, 175, 1))),
+                      //     child: DropdownButton<String>(
+                      //       value: valTrack,
+                      //       isExpanded: true,
+                      //       underline: const SizedBox(),
+                      //       borderRadius: BorderRadius.circular(8),
+                      //       hint: Row(
+                      //         children: const [
+                      //           Icon(
+                      //             Icomoon.truck,
+                      //             size: 18,
+                      //             color: Color.fromRGBO(57, 94, 149, 1),
+                      //           ),
+                      //           SizedBox(width: 11),
+                      //           SizedBox(
+                      //             width: 210,
+                      //             child: Text(
+                      //               "На чем будем везти",
+                      //               overflow: TextOverflow.ellipsis,
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       items: snapshot.data
+                      //           .map<DropdownMenuItem<String>>((map) {
+                      //         return DropdownMenuItem<String>(
+                      //           value: map['id'].toString(),
+                      //           child: Text(map['name'],
+                      //               style: const TextStyle(fontSize: 13)),
+                      //         );
+                      //       }).toList(),
+                      //       onChanged: (value) {
+                      //         setState(() {
+                      //           errValTrack = false;
+                      //           valTrack = value;
+                      //         });
+                      //       },
+                      //     ));
+                      return TypeAheadField<dynamic>(
+                        hideSuggestionsOnKeyboardHide: true,
+                        textFieldConfiguration: const TextFieldConfiguration(
+                          decoration: InputDecoration(
+                            prefixIcon: Icon(Icons.search),
+                            border: OutlineInputBorder(),
+                            hintText: 'Search Username',
+                          ),
+                        ),
+                        suggestionsCallback: UserApi.getUserSuggestions,
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            title: Text(suggestion.toString()),
+                          );
+                        },
+                        noItemsFoundBuilder: (context) => const SizedBox(
+                          height: 100,
+                          child: Center(
+                            child: Text(
+                              'No Users Found.',
+                              style: TextStyle(fontSize: 24),
                             ),
-                            items: snapshot.data
-                                .map<DropdownMenuItem<String>>((map) {
-                              return DropdownMenuItem<String>(
-                                value: map['id'].toString(),
-                                child: Text(map['name'],
-                                    style: const TextStyle(fontSize: 13)),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                errValTrack = false;
-                                valTrack = value;
-                              });
-                            },
-                          ));
+                          ),
+                        ),
+                        onSuggestionSelected: (dynamic suggestion) {
+                          final user = suggestion;
+
+                          ScaffoldMessenger.of(context)
+                            ..removeCurrentSnackBar()
+                            ..showSnackBar(SnackBar(
+                              content: Text('Selected user: ${user['name']}'),
+                            ));
+                        },
+                      );
                     }),
                 errValTrack
                     ? Container(

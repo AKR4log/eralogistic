@@ -15,7 +15,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController controllerPhone = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   TextEditingController controllerConfirmPassword = TextEditingController();
-  bool errorConfirmPassword = false, load = false;
+  bool errorConfirmPassword = false, load = false, errorStatus = false;
 
   @override
   void initState() {
@@ -156,6 +156,12 @@ class _RegisterPageState extends State<RegisterPage> {
                                         color:
                                             Color.fromRGBO(171, 171, 171, 1)))),
                           ),
+                          errorStatus
+                              ? Text(
+                                  'Данный телефон зарегистрирован.',
+                                  style: TextStyle(color: Colors.red[400]),
+                                )
+                              : const SizedBox(),
                           SizedBox(
                             width: double.infinity,
                             child: Column(
@@ -198,14 +204,23 @@ class _RegisterPageState extends State<RegisterPage> {
                                           controllerConfirmPassword.text
                                               .trim()) {
                                         setState(() {
+                                          errorStatus = false;
                                           load = true;
                                         });
-                                        state.register(
-                                            context,
-                                            controllerPhone.text.trim(),
-                                            controllerPassword.text.trim());
+                                        state
+                                            .register(
+                                                context,
+                                                controllerPhone.text.trim(),
+                                                controllerPassword.text.trim())
+                                            .whenComplete(() {
+                                          setState(() {
+                                            errorStatus = true;
+                                            load = false;
+                                          });
+                                        });
                                       } else {
                                         setState(() {
+                                          errorStatus = false;
                                           errorConfirmPassword = true;
                                         });
                                       }

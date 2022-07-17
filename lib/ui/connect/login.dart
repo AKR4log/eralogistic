@@ -1,3 +1,4 @@
+import 'package:eralogistic/app/enum/auth_s.dart';
 import 'package:eralogistic/app/state/feed_state.dart';
 import 'package:eralogistic/ui/widget/appbar_back.dart';
 import 'package:flutter/material.dart';
@@ -117,6 +118,24 @@ class _LoginPageState extends State<LoginPage> {
                                         color:
                                             Color.fromRGBO(171, 171, 171, 1)))),
                           ),
+                          state.authStatus == AuthStatus.PASSWORD_REQUIRED
+                              ? Text(
+                                  'Пароль обязателен.',
+                                  style: TextStyle(color: Colors.red[400]),
+                                )
+                              : const SizedBox(),
+                          state.authStatus == AuthStatus.PHONE_NOT_EXIST
+                              ? Text(
+                                  'Данный телефон не зарегистрирован.',
+                                  style: TextStyle(color: Colors.red[400]),
+                                )
+                              : const SizedBox(),
+                          state.authStatus == AuthStatus.LOGIN_INVALID
+                              ? Text(
+                                  'Проверьте написание пароля, что-то пошло не так.',
+                                  style: TextStyle(color: Colors.red[400]),
+                                )
+                              : const SizedBox(),
                           SizedBox(
                             width: double.infinity,
                             child: Column(
@@ -164,6 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                                             controllerPhone.text.trim(),
                                             controllerPassword.text.trim(),
                                             context);
+                                        setState(() {});
                                       }),
                                 ),
                                 SizedBox(
@@ -195,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                                             context, "/RegisterPage"))),
                               ],
                             ),
-                          ),
+                          )
                         ]),
                   )
                 ]),

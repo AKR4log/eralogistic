@@ -7,7 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-getNewNotification() async {
+Future<List<dynamic>> getNewNotification() async {
   var id = await getId();
   var token = await getToken();
   final res = await http.get(
@@ -18,9 +18,10 @@ getNewNotification() async {
       });
   if (res.statusCode == 200) {
     var data = json.decode(res.body);
-    var rest = data["data"] as List;
+    var rest = data["data"];
     return rest;
   }
+  return null;
 }
 
 readNotifications() async {

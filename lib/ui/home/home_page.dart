@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TextEditingController controllerName = TextEditingController();
   TextEditingController controllerPhone = TextEditingController();
-  String valTrack, valFrom, valFor;
+  String valTrack, valFrom, valFor, valTrackName, valFromName, valForName;
   var idWaypoint, newMessage;
   bool errValTrack = false,
       errValFrom = false,
@@ -134,7 +134,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
           width: double.infinity,
-          margin: const EdgeInsets.symmetric(vertical: 24),
+          margin: const EdgeInsets.symmetric(vertical: 34),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
@@ -191,114 +191,82 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FutureBuilder(
-                    future: state.getType(),
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return const Text("Loading");
-                      }
-                      // return Container(
-                      //     padding: const EdgeInsets.symmetric(horizontal: 15),
-                      //     decoration: BoxDecoration(
-                      //         borderRadius: BorderRadius.circular(8),
-                      //         border: errValTrack
-                      //             ? Border.all(
-                      //                 width: 1,
-                      //                 color:
-                      //                     const Color.fromRGBO(220, 38, 38, 1))
-                      //             : Border.all(
-                      //                 width: 1,
-                      //                 color: const Color.fromRGBO(
-                      //                     156, 163, 175, 1))),
-                      //     child: DropdownButton<String>(
-                      //       value: valTrack,
-                      //       isExpanded: true,
-                      //       underline: const SizedBox(),
-                      //       borderRadius: BorderRadius.circular(8),
-                      //       hint: Row(
-                      //         children: const [
-                      //           Icon(
-                      //             Icomoon.truck,
-                      //             size: 18,
-                      //             color: Color.fromRGBO(57, 94, 149, 1),
-                      //           ),
-                      //           SizedBox(width: 11),
-                      //           SizedBox(
-                      //             width: 210,
-                      //             child: Text(
-                      //               "На чем будем везти",
-                      //               overflow: TextOverflow.ellipsis,
-                      //             ),
-                      //           ),
-                      //         ],
-                      //       ),
-                      //       items: snapshot.data
-                      //           .map<DropdownMenuItem<String>>((map) {
-                      //         return DropdownMenuItem<String>(
-                      //           value: map['id'].toString(),
-                      //           child: Text(map['name'],
-                      //               style: const TextStyle(fontSize: 13)),
-                      //         );
-                      //       }).toList(),
-                      //       onChanged: (value) {
-                      //         setState(() {
-                      //           errValTrack = false;
-                      //           valTrack = value;
-                      //         });
-                      //       },
-                      //     ));
-                      return TypeAheadField<dynamic>(
-                        hideSuggestionsOnKeyboardHide: true,
-                        textFieldConfiguration: const TextFieldConfiguration(
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.search),
-                            border: OutlineInputBorder(),
-                            hintText: 'Search Username',
-                          ),
-                        ),
-                        suggestionsCallback: UserApi.getUserSuggestions,
-                        itemBuilder: (context, suggestion) {
-                          return ListTile(
-                            title: Text(suggestion.toString()),
-                          );
-                        },
-                        noItemsFoundBuilder: (context) => const SizedBox(
-                          height: 100,
-                          child: Center(
-                            child: Text(
-                              'No Users Found.',
-                              style: TextStyle(fontSize: 24),
+            valTrack != null && valTrack != ''
+                ? Text(
+                    'Выбрано: $valTrackName',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w500),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: errValFrom
+                                ? Border.all(
+                                    width: 1,
+                                    color: const Color.fromRGBO(220, 38, 38, 1))
+                                : Border.all(
+                                    width: 1,
+                                    color: const Color.fromRGBO(
+                                        156, 163, 175, 1))),
+                        child: TypeAheadField<dynamic>(
+                          hideSuggestionsOnKeyboardHide: true,
+                          textFieldConfiguration: const TextFieldConfiguration(
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                Icomoon.map_pin,
+                                size: 18,
+                                color: Color.fromRGBO(57, 94, 149, 1),
+                              ),
+                              border: InputBorder.none,
+                              hintText: 'Выберите транспорт',
                             ),
                           ),
-                        ),
-                        onSuggestionSelected: (dynamic suggestion) {
-                          final user = suggestion;
+                          suggestionsCallback: SearchAutocorrect.getTypes,
+                          itemBuilder: (context, suggestion) {
+                            if (suggestion.toString() == "false") {
+                              return const SizedBox();
+                            }
+                            return ListTile(
+                              title: Text(suggestion['name']),
+                            );
+                          },
+                          noItemsFoundBuilder: (context) => const SizedBox(
+                            height: 100,
+                            child: Center(
+                              child: Text(
+                                'No Found.',
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            ),
+                          ),
+                          onSuggestionSelected: (dynamic suggestion) {
+                            final type = suggestion;
 
-                          ScaffoldMessenger.of(context)
-                            ..removeCurrentSnackBar()
-                            ..showSnackBar(SnackBar(
-                              content: Text('Selected user: ${user['name']}'),
-                            ));
-                        },
-                      );
-                    }),
-                errValTrack
-                    ? Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        child: const Text(
-                          'Ошибка - обязательное поле',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(220, 38, 38, 1)),
+                            setState(() {
+                              errValTrack = false;
+                              valTrack = type['id'].toString();
+                              valTrackName = type['name'].toString();
+                            });
+                          },
                         ),
-                      )
-                    : const SizedBox()
-              ],
-            ),
+                      ),
+                      errValTrack
+                          ? Container(
+                              margin: const EdgeInsets.only(top: 8),
+                              child: const Text(
+                                'Ошибка - обязательное поле',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                    color: Color.fromRGBO(220, 38, 38, 1)),
+                              ),
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
           ]),
         ),
         Container(
@@ -331,17 +299,16 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FutureBuilder(
-                    future: state.getCity(),
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return const Text("Loading");
-                      }
-                      return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
+            valFrom != null && valFrom != ''
+                ? Text(
+                    'Выбрано: $valFromName',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w500),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
                             border: errValFrom
@@ -352,59 +319,62 @@ class _HomePageState extends State<HomePage> {
                                     width: 1,
                                     color: const Color.fromRGBO(
                                         156, 163, 175, 1))),
-                        child: DropdownButton(
-                          value: valFrom,
-                          isExpanded: true,
-                          underline: const SizedBox(),
-                          borderRadius: BorderRadius.circular(8),
-                          hint: Row(
-                            children: const [
-                              Icon(
+                        child: TypeAheadField<dynamic>(
+                          hideSuggestionsOnKeyboardHide: true,
+                          textFieldConfiguration: const TextFieldConfiguration(
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
                                 Icomoon.map_pin,
                                 size: 18,
                                 color: Color.fromRGBO(57, 94, 149, 1),
                               ),
-                              SizedBox(width: 11),
-                              SizedBox(
-                                width: 210,
-                                child: Text(
-                                  "Начальная точка маршрута",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
+                              border: InputBorder.none,
+                              hintText: 'Начальная точка маршрута',
+                            ),
                           ),
-                          items: snapshot.data
-                              .map<DropdownMenuItem<String>>((map) {
-                            return DropdownMenuItem<String>(
-                              value: map['id'].toString(),
-                              child: Text(map['name'].toString(),
-                                  style: const TextStyle(fontSize: 13)),
+                          suggestionsCallback: SearchAutocorrect.getCity,
+                          itemBuilder: (context, suggestion) {
+                            if (suggestion.toString() == "false") {
+                              return const SizedBox();
+                            }
+                            return ListTile(
+                              title: Text(suggestion['name']),
                             );
-                          }).toList(),
-                          onChanged: (value) {
+                          },
+                          noItemsFoundBuilder: (context) => const SizedBox(
+                            height: 100,
+                            child: Center(
+                              child: Text(
+                                'No Found.',
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            ),
+                          ),
+                          onSuggestionSelected: (dynamic suggestion) {
+                            final type = suggestion;
+
                             setState(() {
                               errValFrom = false;
-                              valFrom = value;
+                              valFrom = type['id'].toString();
+                              valFromName = type['name'].toString();
                             });
                           },
                         ),
-                      );
-                    }),
-                errValFrom
-                    ? Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        child: const Text(
-                          'Ошибка - обязательное поле',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(220, 38, 38, 1)),
-                        ),
-                      )
-                    : const SizedBox(),
-              ],
-            )
+                      ),
+                      errValFrom
+                          ? Container(
+                              margin: const EdgeInsets.only(top: 8),
+                              child: const Text(
+                                'Ошибка - обязательное поле',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                    color: Color.fromRGBO(220, 38, 38, 1)),
+                              ),
+                            )
+                          : const SizedBox(),
+                    ],
+                  )
           ]),
         ),
         Container(
@@ -437,20 +407,19 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FutureBuilder(
-                    future: state.getCity(),
-                    builder: (context, snapshot) {
-                      if (snapshot.data == null) {
-                        return const Text("Loading");
-                      }
-                      return Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
+            valFor != null && valFor != ''
+                ? Text(
+                    'Выбрано: $valForName',
+                    style: const TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w500),
+                  )
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            border: errValFor
+                            border: errValFrom
                                 ? Border.all(
                                     width: 1,
                                     color: const Color.fromRGBO(220, 38, 38, 1))
@@ -458,59 +427,62 @@ class _HomePageState extends State<HomePage> {
                                     width: 1,
                                     color: const Color.fromRGBO(
                                         156, 163, 175, 1))),
-                        child: DropdownButton(
-                          value: valFor,
-                          isExpanded: true,
-                          underline: const SizedBox(),
-                          borderRadius: BorderRadius.circular(8),
-                          hint: Row(
-                            children: const [
-                              Icon(
+                        child: TypeAheadField<dynamic>(
+                          hideSuggestionsOnKeyboardHide: true,
+                          textFieldConfiguration: const TextFieldConfiguration(
+                            decoration: InputDecoration(
+                              prefixIcon: Icon(
                                 Icomoon.map_pin,
                                 size: 18,
                                 color: Color.fromRGBO(57, 94, 149, 1),
                               ),
-                              SizedBox(width: 11),
-                              SizedBox(
-                                width: 210,
-                                child: Text(
-                                  "Конец маршрута",
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
+                              border: InputBorder.none,
+                              hintText: 'Конец маршрута',
+                            ),
                           ),
-                          items: snapshot.data
-                              .map<DropdownMenuItem<String>>((map) {
-                            return DropdownMenuItem<String>(
-                              value: map['id'].toString(),
-                              child: Text(map['name'].toString(),
-                                  style: const TextStyle(fontSize: 13)),
+                          suggestionsCallback: SearchAutocorrect.getCity,
+                          itemBuilder: (context, suggestion) {
+                            if (suggestion.toString() == "false") {
+                              return const SizedBox();
+                            }
+                            return ListTile(
+                              title: Text(suggestion['name']),
                             );
-                          }).toList(),
-                          onChanged: (value) {
+                          },
+                          noItemsFoundBuilder: (context) => const SizedBox(
+                            height: 100,
+                            child: Center(
+                              child: Text(
+                                'No Found.',
+                                style: TextStyle(fontSize: 24),
+                              ),
+                            ),
+                          ),
+                          onSuggestionSelected: (dynamic suggestion) {
+                            final type = suggestion;
+
                             setState(() {
                               errValFor = false;
-                              valFor = value;
+                              valFor = type['id'].toString();
+                              valForName = type['name'].toString();
                             });
                           },
                         ),
-                      );
-                    }),
-                errValFor
-                    ? Container(
-                        margin: const EdgeInsets.only(top: 8),
-                        child: const Text(
-                          'Ошибка - обязательное поле',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 12,
-                              color: Color.fromRGBO(220, 38, 38, 1)),
-                        ),
-                      )
-                    : const SizedBox()
-              ],
-            ),
+                      ),
+                      errValFor
+                          ? Container(
+                              margin: const EdgeInsets.only(top: 8),
+                              child: const Text(
+                                'Ошибка - обязательное поле',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 12,
+                                    color: Color.fromRGBO(220, 38, 38, 1)),
+                              ),
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
           ]),
         ),
         Container(
@@ -579,9 +551,10 @@ class _HomePageState extends State<HomePage> {
         future: state.searchAuto(valTrack, valFrom, valFor),
         builder: (context, snapshot) {
           if (snapshot.data == null) {
-            return const SizedBox(
+            return Container(
+              margin: const EdgeInsets.only(bottom: 30, top: 15),
               width: double.infinity,
-              child: Text(
+              child: const Text(
                 'Поиск подходящих машин',
                 textAlign: TextAlign.center,
               ),
@@ -629,13 +602,6 @@ class _HomePageState extends State<HomePage> {
                               )
                             ])),
                     ...snapshot.data.map<Widget>((map) {
-                      // return TextButton(
-                      //   onPressed: () {
-                      // setState(() {
-                      //   idWaypoint = map['id'];
-                      // });
-                      //   },
-                      //   child: ),
                       return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -729,9 +695,10 @@ class _HomePageState extends State<HomePage> {
                   ]),
             );
           }
-          return const SizedBox(
+          return Container(
+            margin: const EdgeInsets.only(bottom: 30, top: 15),
             width: double.infinity,
-            child: Text(
+            child: const Text(
               'Упс, ничего не найдено',
               textAlign: TextAlign.center,
             ),

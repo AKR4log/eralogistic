@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable, prefer_function_declarations_over_variables, non_constant_identifier_names, missing_return
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
@@ -58,7 +59,8 @@ class FeedServiceState extends AppState {
     return Navigator.pushReplacementNamed(context, "/SpecialPage");
   }
 
-  auth(String phone, String password, BuildContext context) async {
+  Future<String> auth(
+      String phone, String password, BuildContext context) async {
     var token = await getToken();
     authStatus = AuthStatus.NOT_LOGGED_IN;
 
@@ -80,19 +82,22 @@ class FeedServiceState extends AppState {
             'Accept': 'application/json',
             'Authorization': 'Bearer ${token['token']}'
           });
-      return setPhone(json.decode(res.body)['phone'].toString()).whenComplete(
-          () => setName(json.decode(res.body)['name'].toString()).whenComplete(
-              () => setId(json.decode(res.body)['id'].toString()).whenComplete(
+      setPhone(json.decode(res.body)['phone'].toString()).whenComplete(() =>
+          setName(json.decode(res.body)['name'].toString()).whenComplete(() =>
+              setId(json.decode(res.body)['id'].toString()).whenComplete(
                   () => Navigator.pushReplacementNamed(context, "/HomePage"))));
     }
     if (res.statusCode == 422) {
       authStatus = AuthStatus.PASSWORD_REQUIRED;
+      return "422";
     }
     if (res.statusCode == 503) {
       authStatus = AuthStatus.LOGIN_INVALID;
+      return "503";
     }
     if (res.statusCode == 504) {
       authStatus = AuthStatus.PHONE_NOT_EXIST;
+      return "504";
     }
   }
 
@@ -291,37 +296,6 @@ class FeedServiceState extends AppState {
     }
   }
 
-  getCity() async {
-    var token = await getToken();
-    final res = await http
-        .get(Uri.parse('https://epohalogistic.kz/api/get-cities'), headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${token['token']}'
-    });
-    if (res.statusCode == 200) {
-      var data = json.decode(res.body);
-      var rest = data["data"] as List;
-
-      return rest;
-    }
-  }
-
-  getOneCity(int id) async {
-    var token = await getToken();
-    final res = await http.get(
-        Uri.parse('https://epohalogistic.kz/api/get-cities/$id'),
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ${token['token']}'
-        });
-    if (res.statusCode == 200) {
-      var data = json.decode(res.body);
-      var rest = data["data"] as List;
-
-      return rest;
-    }
-  }
-
   getAllNotification() async {
     var id = await getId();
     var token = await getToken();
@@ -348,38 +322,6 @@ class FeedServiceState extends AppState {
           'Accept': 'application/json',
           'Authorization': 'Bearer ${token['token']}'
         });
-    if (res.statusCode == 200) {
-      var data = json.decode(res.body);
-      var rest = data["data"] as List;
-
-      return rest;
-    }
-  }
-
-  getType() async {
-    var token = await getToken();
-    final res = await http
-        .get(Uri.parse('https://epohalogistic.kz/api/get-types'), headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${token['token']}'
-    });
-    if (res.statusCode == 200) {
-      var data = json.decode(res.body);
-      var rest = data["data"] as List;
-
-      return rest;
-    } else {
-      throw Exception();
-    }
-  }
-
-  getOneType(int id) async {
-    var token = await getToken();
-    final res = await http
-        .get(Uri.parse('https://epohalogistic.kz/api/get-types/$id'), headers: {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer ${token['token']}'
-    });
     if (res.statusCode == 200) {
       var data = json.decode(res.body);
       var rest = data["data"] as List;

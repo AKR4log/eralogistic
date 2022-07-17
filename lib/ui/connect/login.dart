@@ -16,6 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController controllerPhone = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
   bool load = false;
+  String codeError;
 
   @override
   void initState() {
@@ -118,19 +119,19 @@ class _LoginPageState extends State<LoginPage> {
                                         color:
                                             Color.fromRGBO(171, 171, 171, 1)))),
                           ),
-                          state.authStatus == AuthStatus.PASSWORD_REQUIRED
+                          codeError == "422"
                               ? Text(
                                   'Пароль обязателен.',
                                   style: TextStyle(color: Colors.red[400]),
                                 )
                               : const SizedBox(),
-                          state.authStatus == AuthStatus.PHONE_NOT_EXIST
+                          codeError == "504"
                               ? Text(
                                   'Данный телефон не зарегистрирован.',
                                   style: TextStyle(color: Colors.red[400]),
                                 )
                               : const SizedBox(),
-                          state.authStatus == AuthStatus.LOGIN_INVALID
+                          codeError == "503"
                               ? Text(
                                   'Проверьте написание пароля, что-то пошло не так.',
                                   style: TextStyle(color: Colors.red[400]),
@@ -177,13 +178,20 @@ class _LoginPageState extends State<LoginPage> {
                                             ),
                                       onPressed: () {
                                         setState(() {
+                                          codeError = null;
                                           load = true;
                                         });
-                                        state.auth(
-                                            controllerPhone.text.trim(),
-                                            controllerPassword.text.trim(),
-                                            context);
-                                        setState(() {});
+                                        state
+                                            .auth(
+                                                controllerPhone.text.trim(),
+                                                controllerPassword.text.trim(),
+                                                context)
+                                            .then((value) {
+                                          setState(() {
+                                            codeError = value.toString();
+                                            load = false;
+                                          });
+                                        });
                                       }),
                                 ),
                                 SizedBox(
